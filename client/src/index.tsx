@@ -1,12 +1,26 @@
+import 'antd/dist/antd.css';
+import plPL from 'antd/lib/locale/pl_PL';
+import { ConfigProvider } from 'antd';
+import moment from 'moment';
+import 'moment/locale/pl';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+
 import App from './App';
+import './index.css';
+import './i18n';
 import reportWebVitals from './reportWebVitals';
+
+moment.locale('pl');
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <ConfigProvider locale={plPL}>
+        <App />
+      </ConfigProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

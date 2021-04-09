@@ -1,0 +1,14 @@
+{
+    "list": {
+        "title": "Kolekcje",
+        "sections": {
+            "aside": {
+                "filtering": "Filtrowanie"
+            },
+            "main": {}
+        }
+    },
+    "single": {
+        "title": "Kolekcja"
+    }
+}

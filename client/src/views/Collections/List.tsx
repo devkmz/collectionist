@@ -52,7 +52,9 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                 </div>
                 {
                     isLoading ? (
-                        <Spin />
+                        <div className="load-spinner">
+                            <Spin />
+                        </div>
                     ) : (
                         <>
                             {

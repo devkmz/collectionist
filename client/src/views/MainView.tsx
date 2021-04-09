@@ -52,6 +52,10 @@ const styles = (): SerializedStyles => css`
         font-weight: 500;
         margin-bottom: 32px;
     }
+
+    .load-spinner {
+        text-align: center;
+    }
 `;
 
 const { Content } = Layout;
@@ -78,7 +82,7 @@ const MainView = ({ user }: Props): JSX.Element => {
                         />
                         <Route
                             path="/"
-                            render={() => <CollectionList />}
+                            render={() => <CollectionList user={user} />}
                             exact
                         />
                     </Switch>

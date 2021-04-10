@@ -1,11 +1,13 @@
 import { Breadcrumb, Button, Card, Col, Empty, message, Row, Spin, Tooltip } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { css, SerializedStyles } from '@emotion/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { Collection } from '../../types/collection';
 import { Link } from 'react-router-dom';
+
+import CardImage from '../../components/CardImage';
+import { Collection } from '../../types/collection';
 import { User } from '../../types/user';
 
 const { Meta } = Card;
@@ -13,6 +15,12 @@ const { Meta } = Card;
 interface Props {
     user?: User;
 }
+
+const styles = (): SerializedStyles => css`
+    .ant-card {
+        position: relative;
+    }
+`;
 
 const CollectionList = ({ user }: Props): JSX.Element => {
     const [data, setData] = useState<Array<Collection>>([]);
@@ -35,7 +43,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
     }, []);
 
     return (
-        <Row gutter={[24, 24]}>
+        <Row gutter={[24, 24]} css={styles}>
             <Col span={5}>
                 <Card title={t('collections.list.sections.aside.filtering')}>
                     <p>Lorem ipsum</p>
@@ -65,12 +73,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                                 <Col span={6} key={`item-${item.id}`}>
                                                     <Link to={`/collections/${item.id}`}>
                                                         <Card
-                                                            cover={
-                                                                <img
-                                                                    alt={item.name}
-                                                                    src={item.imageURL}
-                                                                />
-                                                            }
+                                                            cover={<CardImage imageURL={item.imageURL} />}
                                                             actions={user?.role === 'ADMIN' ? [
                                                                 <Tooltip title={t('common.actions.view')}>
                                                                     <EyeOutlined key="view" onClick={(e) => e.preventDefault() } />

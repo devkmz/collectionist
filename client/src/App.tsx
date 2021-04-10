@@ -1,15 +1,25 @@
-import { css, SerializedStyles } from '@emotion/core';
 import React from 'react';
 
-const style = (): SerializedStyles => css`
+import { User } from './types/user';
+import MainView from './views/MainView';
 
-`;
+const getCurrentUser = (): User => {
+  return {
+    id: 1,
+    username: 'Test',
+    email: 'test@example.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    createdAt: '2021-04-08T19:58:32Z',
+    role: 'ADMIN'
+  }
+};
 
 const App = (): JSX.Element => {
+  const currentUser: User = getCurrentUser();
+
   return (
-    <div css={style}>
-      <h1>App component</h1>
-    </div>
+    <MainView user={currentUser} />
   );
 }
 

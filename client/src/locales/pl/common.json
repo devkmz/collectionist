@@ -1,1 +1,9 @@
-{}
+{
+    "actions": {
+        "add": "Dodaj",
+        "edit": "Edytuj",
+        "delete": "Usuń",
+        "view": "Wyświetl",
+        "save": "Zapisz"
+    }
+}

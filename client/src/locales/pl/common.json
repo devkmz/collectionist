@@ -5,5 +5,8 @@
         "delete": "Usuń",
         "view": "Wyświetl",
         "save": "Zapisz"
+    },
+    "messages": {
+        "something-went-wrong": "Coś poszło nie tak. Spróbuj ponownie później"
     }
 }

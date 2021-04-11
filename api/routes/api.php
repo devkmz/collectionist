@@ -23,3 +23,7 @@ Route::get('collections/{id}', 'App\Http\Controllers\CollectionController@show')
 Route::post('collections', 'App\Http\Controllers\CollectionController@store');
 Route::put('collections/{id}', 'App\Http\Controllers\CollectionController@update');
 Route::delete('collections/{id}', 'App\Http\Controllers\CollectionController@delete');
+
+Route::post('/collections/file', 'App\Http\Controllers\FileController@store');
+Route::delete('/collections/file/{id}', 'App\Http\Controllers\FileController@delete');
+

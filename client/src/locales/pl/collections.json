@@ -6,7 +6,10 @@
                 "filtering": "Filtrowanie"
             },
             "main": {}
-        }
+        },
+        "delete-confirm": "Czy na pewno chcesz usunąć kolekcję",
+        "delete-collection": "Usuń kolekcję",
+        "delete-success": "Pomyślnie usunięto kolekcję"
     },
     "single": {
         "title": "Kolekcja"

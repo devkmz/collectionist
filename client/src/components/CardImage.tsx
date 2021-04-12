@@ -28,10 +28,10 @@ const styles = (): SerializedStyles => css`
 `;
 
 interface Props {
-    imageURL?: string;
+    imageUrl?: string;
 }
 
-const CardImage = ({ imageURL }: Props): JSX.Element => {
+const CardImage = ({ imageUrl }: Props): JSX.Element => {
     const [hasImage, setHasImage] = useState(false);
 
     const checkIfImageExists = (url: string | undefined) => {
@@ -63,11 +63,11 @@ const CardImage = ({ imageURL }: Props): JSX.Element => {
     }
     
     useEffect(() => {
-        checkIfImageExists(imageURL);
-    }, [imageURL]);
+        checkIfImageExists(imageUrl);
+    }, [imageUrl]);
     
     return hasImage ? (
-        <div css={styles} style={{ backgroundImage: `url(${imageURL})` }} />
+        <div css={styles} style={{ backgroundImage: `url(${imageUrl})` }} />
     ) : (
         <div css={styles}>
             <div className="no-image">

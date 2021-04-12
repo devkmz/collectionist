@@ -105,7 +105,6 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                         {
                                             data.map(item => (
                                                 <Col span={6} key={`item-${item.id}`}>
-                                                    { console.log(item) }
                                                     <Link to={`/collections/${item.id}`}>
                                                         <Card
                                                             cover={<CardImage imageUrl={item.imageUrl} />}

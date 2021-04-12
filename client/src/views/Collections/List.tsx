@@ -73,7 +73,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                                 <Col span={6} key={`item-${item.id}`}>
                                                     <Link to={`/collections/${item.id}`}>
                                                         <Card
-                                                            cover={<CardImage imageURL={item.imageURL} />}
+                                                            cover={<CardImage imageUrl={item.imageUrl} />}
                                                             actions={user?.role === 'ADMIN' ? [
                                                                 <Tooltip title={t('common.actions.view')}>
                                                                     <EyeOutlined key="view" onClick={(e) => e.preventDefault() } />

@@ -3,7 +3,7 @@ export type Collection = {
     name: string;
     description: string;
     type: string;
-    imageURL?: string;
+    imageUrl?: string;
     created_at?: string;
     updated_at?: string;
 }

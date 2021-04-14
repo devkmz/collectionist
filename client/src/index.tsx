@@ -15,13 +15,11 @@ import reportWebVitals from './reportWebVitals';
 moment.locale('pl');
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ConfigProvider locale={plPL}>
-        <App />
-      </ConfigProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <ConfigProvider locale={plPL}>
+      <App />
+    </ConfigProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

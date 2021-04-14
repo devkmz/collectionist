@@ -4,9 +4,10 @@
         "edit": "Edytuj",
         "delete": "Usuń",
         "view": "Wyświetl",
-        "save": "Zapisz"
+        "save": "Zapisz",
+        "cancel": "Anuluj"
     },
     "messages": {
-        "something-went-wrong": "Coś poszło nie tak. Spróbuj ponownie później"
+        "error": "Coś poszło nie tak. Spróbuj ponownie później"
     }
 }

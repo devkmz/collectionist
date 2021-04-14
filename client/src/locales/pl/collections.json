@@ -9,7 +9,37 @@
         },
         "delete-confirm": "Czy na pewno chcesz usunąć kolekcję",
         "delete-collection": "Usuń kolekcję",
-        "delete-success": "Pomyślnie usunięto kolekcję"
+        "delete-success": "Pomyślnie usunięto kolekcję",
+        "add-collection": "Dodaj kolekcję",
+        "add-success": "Pomyślnie dodano kolekcję",
+        "add-form": {
+            "fields": {
+                "name": {
+                    "label": "Nazwa",
+                    "validation": "Wprowadź nazwę",
+                    "placeholder": "Wpisz nazwę..."
+                },
+                "description": {
+                    "label": "Opis",
+                    "validation": "Wprowadź opis",
+                    "placeholder": "Wpisz opis..."
+                },
+                "type": {
+                    "label": "Typ kolekcji",
+                    "validation": "Wybierz typ kolekcji",
+                    "placeholder": "Wybierz..."
+                },
+                "image-upload": {
+                    "label": "Miniaturka",
+                    "validation": "Wczytaj plik obrazka"
+                }
+            },
+            "upload-button": {
+                "heading": "Wczytaj plik",
+                "subheading": "Dozwolone typy plików",
+                "file-formats": "*.jpg, *.png"
+            }
+        }
     },
     "single": {
         "title": "Kolekcja"

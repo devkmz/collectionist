@@ -26,4 +26,5 @@ Route::delete('collections/{id}', 'App\Http\Controllers\CollectionController@del
 
 Route::post('/collections/file', 'App\Http\Controllers\FileController@store');
 Route::delete('/collections/file/{id}', 'App\Http\Controllers\FileController@delete');
+Route::get('collections/file/{id}', 'App\Http\Controllers\FileController@show');
 

@@ -38,8 +38,12 @@ class FileController extends Controller
         abort(500, 'Błąd przesyłania');
     }
 
+    public function show ($id) {
+        return File::find($id);
+    }
+
     public function delete (Request $request, $id) {
-        
+
         $file = File::findOrFail($id);
         unlink('storage/'.$file->name);
         $file->delete();

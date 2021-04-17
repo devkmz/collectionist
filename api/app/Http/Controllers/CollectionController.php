@@ -16,10 +16,22 @@ class CollectionController extends Controller
     }
 
     public function store(Request $request) {
+        $request->validate([
+            'name' => 'required|max:50',
+            'description' => 'required|max:150',
+            'type' => 'required|max:50',
+            'image' => 'nullable',
+        ]);
         return Collection::create($request->all());
     }
 
     public function update (Request $request, $id) {
+        $request->validate([
+            'name' => 'required|max:50',
+            'description' => 'required|max:150',
+            'type' => 'required|max:50',
+            'image' => 'nullable',
+        ]);
         $collection = Collection::findOrFail($id);
         $collection->update($request->all());
         return $collection;

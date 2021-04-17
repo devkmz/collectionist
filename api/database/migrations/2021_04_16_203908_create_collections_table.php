@@ -18,7 +18,7 @@ class CreateCollectionsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('type');
-            $table->bigInteger('imageId');
+            $table->json('image');
             $table->timestamp('createdAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updatedAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });

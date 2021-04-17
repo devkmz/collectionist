@@ -11,5 +11,6 @@ class Collection extends Model
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
-    protected $fillable = ['name', 'description', 'type', 'imageId'];
+    protected $fillable = ['name', 'description', 'type', 'image'];
+    protected $casts = ['image' => 'array'];
 }

@@ -1,10 +1,12 @@
 import { Layout } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import CollectionList from './Collections/List';
 import CollectionSingle from './Collections/Single';
+import MobileNavbar from '../components/MobileNavbar';
+import Navbar from '../components/Navbar';
 import { User } from '../types/user';
 
 const styles = (): SerializedStyles => css`
@@ -12,6 +14,10 @@ const styles = (): SerializedStyles => css`
 
     .ant-layout-content {
         padding: 44px 0;
+
+        @media (max-width: 767px) {
+            padding-top: 96px;
+        }
     }
 
     .container {
@@ -33,12 +39,12 @@ const styles = (): SerializedStyles => css`
 
         @media (max-width: 767px) {
             width: 540px;
+            padding-left: 15px;
+            padding-right: 15px;
         }
 
         @media (max-width: 575px) {
             width: 100%;
-            padding-left: 15px;
-            padding-right: 15px;
         }
     }
 
@@ -67,6 +73,8 @@ interface Props {
 const MainView = ({ user }: Props): JSX.Element => {
     return (
         <Layout css={styles}>
+            <Navbar user={user} />
+            <MobileNavbar user={user} />
             <Content>
                 <div className="container">
                     <Switch>
@@ -85,6 +93,7 @@ const MainView = ({ user }: Props): JSX.Element => {
                             render={() => <CollectionList user={user} />}
                             exact
                         />
+                        <Route render={() => <Redirect to="/" />} />
                     </Switch>
                 </div>
             </Content>

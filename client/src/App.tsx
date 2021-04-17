@@ -1,7 +1,11 @@
-import React from 'react';
+import { message } from 'antd';
 
 import { User } from './types/user';
 import MainView from './views/MainView';
+
+message.config({
+  getContainer: () => document.body
+});
 
 const getCurrentUser = (): User => {
   return {

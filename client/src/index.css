@@ -15,3 +15,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ant-message {
+  top: 90px !important;
+}
+
+@media (max-width: 767px) {
+    .ant-message {
+      top: 74px !important;
+    }
+}

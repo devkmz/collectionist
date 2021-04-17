@@ -221,7 +221,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                                     <Col span={6} key={`item-${item.id}`}>
                                                         <Link to={`/collections/${item.id}`}>
                                                             <Card
-                                                                cover={<CardImage imageUrl={item.imageUrl} />}
+                                                                cover={<CardImage imageUrl={item.image?.url} />}
                                                                 actions={user?.role === 'ADMIN' ? [
                                                                     <Tooltip title={t('common.actions.view')}>
                                                                         <Link to={`/collections/${item.id}`}>
@@ -278,7 +278,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                 onOk={() => {
                     addForm.validateFields()
                         .then(values => {
-                            addCollection({...values, imageUrl: imageData?.url });
+                            addCollection({...values, image: imageData });
                         })
                         .catch(error => {});
                 }}
@@ -348,12 +348,6 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                     }
                                     return event && event.fileList;
                                 }}
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: t('collections.list.add-form.fields.image-upload.validation'),
-                                    }
-                                ]}
                             >
                                 <Upload
                                     accept="image/png, image/jpeg"

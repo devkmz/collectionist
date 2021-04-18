@@ -31,6 +31,14 @@ const styles = (): SerializedStyles => css`
         }
     }
 
+    .ant-form-item {
+        &.upload {
+            .ant-form-item-control {
+                max-height: 138px;
+            }
+        }
+    }
+
     .ant-upload {
         &.ant-upload-select {
             &.ant-upload-select-picture-card {
@@ -38,6 +46,10 @@ const styles = (): SerializedStyles => css`
                 height: 120px;
             }
         }
+    }
+
+    .ant-upload-picture-card-wrapper {
+        max-height: 138px;
     }
 
     .ant-upload-list-picture-card-container {
@@ -55,6 +67,7 @@ const styles = (): SerializedStyles => css`
     .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
         object-fit: cover;
     }
+    
 
     .upload-button-text {
         font-size: 12px;
@@ -65,6 +78,28 @@ const styles = (): SerializedStyles => css`
 
         .subheading {
             color: rgba(0, 0, 0, 0.65);
+        }
+    }
+
+    .filtering {
+        @media (max-width: 991px) {
+            display: none;
+        }
+
+        &.filtering-mobile {
+            display: none;
+            margin-bottom: 32px;
+
+            @media (max-width: 991px) {
+                display: block;
+            }
+        }
+    }
+
+    .collection-card {
+        @media (max-width: 449px) {
+            max-width: 100%;
+            flex: 0 0 100%;
         }
     }
 `;
@@ -82,7 +117,8 @@ const CollectionList = ({ user }: Props): JSX.Element => {
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [addForm] = Form.useForm();
     const [fileList, setFileList] = useState<any>([]);
-    const [imageData, setImageData] = useState<any>();
+    const [imageData, setImageData] = useState<any>(undefined);
+    const [selectedCollection, setSelectedCollection] = useState<Collection>();
 
     const getCollections = async () => {
         try {
@@ -131,6 +167,20 @@ const CollectionList = ({ user }: Props): JSX.Element => {
         }
     };
 
+    const editCollection = async (values: any) => {
+        try {
+            setIsSaving(true);
+            await axios.put(`http://localhost:8000/api/collections/${selectedCollection?.id}`, values);
+            setIsAddModalVisible(false);
+            getCollections();
+            message.success(t('collections.list.edit-success'));
+        } catch (error) {
+            message.error(t('common.messages.error'));
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
     useEffect(() => {
         getCollections();
     }, []);
@@ -166,7 +216,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
             setImageData(undefined);
         } catch (error) {
             message.error(t('common.messages.error'));
-        };
+        }
     };
 
     const handleCollectionAddingCancel = async () => {
@@ -177,15 +227,22 @@ const CollectionList = ({ user }: Props): JSX.Element => {
         addForm.resetFields();
     };
 
+    const handleCollectionEditingCancel = () => {
+        setIsAddModalVisible(false);
+        addForm.resetFields();
+        setSelectedCollection(undefined);
+        setFileList([]);
+    };
+
     return (
         <div ref={reference} css={styles}>
             <Row gutter={[24, 24]}>
-                <Col span={5}>
+                <Col className="filtering" xs={24} sm={24} md={7} lg={6} xxl={5}>
                     <Card title={t('collections.list.sections.aside.filtering')}>
                         <p>Lorem ipsum</p>
                     </Card>
                 </Col>
-                <Col span={19}>
+                <Col xs={24} sm={24} md={17} lg={18} xxl={19}>
                     <div className="top-row">
                         <Breadcrumb>
                             <Breadcrumb.Item key="collections">{ t('collections.list.title') }</Breadcrumb.Item>
@@ -197,7 +254,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                     onClick={() => {
                                         setIsAddModalVisible(true);
                                         addForm.resetFields();
-                                        setImageData(undefined);
+                                        setImageData(0);
                                         setFileList([]);
                                     }}
                                 >
@@ -205,6 +262,11 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                 </Button>
                             )
                         }
+                    </div>
+                    <div className="filtering filtering-mobile">
+                        <Card title={t('collections.list.sections.aside.filtering')}>
+                            <p>Lorem ipsum</p>
+                        </Card>
                     </div>
                     {
                         isLoading ? (
@@ -218,7 +280,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                         <Row gutter={[24, 24]}>
                                             {
                                                 data.map(item => (
-                                                    <Col span={6} key={`item-${item.id}`}>
+                                                    <Col className="collection-card" xs={12} sm={12} md={8} xl={6} xxl={6} key={`item-${item.id}`}>
                                                         <Link to={`/collections/${item.id}`}>
                                                             <Card
                                                                 cover={<CardImage imageUrl={item.image?.url} />}
@@ -233,7 +295,31 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                                                     <Tooltip title={t('common.actions.edit')}>
                                                                         <div
                                                                             className="action-wrapper"
-                                                                            onClick={(e) => e.preventDefault()}
+                                                                            onClick={(e) => {
+                                                                                e.preventDefault();
+                                                                                setSelectedCollection(item);
+                                                                                addForm.setFieldsValue({
+                                                                                    name: item.name,
+                                                                                    description: item.description,
+                                                                                    type: item.type,
+                                                                                    image: !!item.image?.id ? [
+                                                                                        {
+                                                                                            name: item.image?.name,
+                                                                                            status: 'done',
+                                                                                            url: item.image?.url
+                                                                                        }
+                                                                                    ] : undefined
+                                                                                });
+                                                                                setFileList(!!item.image?.id ? [
+                                                                                    {
+                                                                                        name: item.image?.name,
+                                                                                        status: 'done',
+                                                                                        url: item.image?.url
+                                                                                    }
+                                                                                ] : []);
+                                                                                setImageData(item.image);
+                                                                                setIsAddModalVisible(true);
+                                                                            }}
                                                                         >
                                                                             <EditOutlined key="edit" />
                                                                         </div>
@@ -273,17 +359,25 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                 </Col>
             </Row>
             <Modal
-                title={t('collections.list.add-collection')}
+                title={!!selectedCollection?.id ? t('collections.list.edit-collection') : t('collections.list.add-collection')}
                 visible={isAddModalVisible}
                 onOk={() => {
-                    addForm.validateFields()
+                    if (!selectedCollection) {
+                        addForm.validateFields()
                         .then(values => {
                             addCollection({...values, image: imageData });
                         })
                         .catch(error => {});
+                    } else {
+                        addForm.validateFields()
+                        .then(values => {
+                            editCollection({...values, type: selectedCollection.type, image: (!!imageData?.id ? imageData : 0)});
+                        })
+                        .catch(error => {});
+                    }
                 }}
-                onCancel={handleCollectionAddingCancel}
-                okText={t('common.actions.add')}
+                onCancel={!!selectedCollection?.id ? handleCollectionEditingCancel : handleCollectionAddingCancel}
+                okText={!!selectedCollection?.id ? t('common.actions.save') : t('common.actions.add')}
                 cancelText={t('common.actions.cancel')}
                 getContainer={reference.current}
                 confirmLoading={isSaving}
@@ -294,7 +388,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                     requiredMark={false}
                 >
                     <Row gutter={[24, 24]}>
-                        <Col span={14}>
+                        <Col xs={24} sm={14}>
                             <Form.Item
                                 name="name"
                                 label={t('collections.list.add-form.fields.name.label')}
@@ -319,27 +413,32 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                             >
                                 <TextArea placeholder={t('collections.list.add-form.fields.description.placeholder')} rows={4} />
                             </Form.Item>
-                            <Form.Item
-                                name="type"
-                                label={t('collections.list.add-form.fields.type.label')}
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: t('collections.list.add-form.fields.type.validation'),
-                                    }
-                                ]}
-                            >
-                                <Select placeholder={t('collections.list.add-form.fields.type.placeholder')}>
-                                    <Option value="monety">Monety</Option>
-                                    <Option value="fotografie">Fotografie</Option>
-                                    <Option value="znaczki">Znaczki</Option>
-                                    <Option value="albumy-muzyczne">Albumy muzyczne</Option>
-                                </Select>
-                            </Form.Item>
+                            {
+                                !selectedCollection && (
+                                    <Form.Item
+                                        name="type"
+                                        label={t('collections.list.add-form.fields.type.label')}
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: t('collections.list.add-form.fields.type.validation'),
+                                            }
+                                        ]}
+                                    >
+                                        <Select placeholder={t('collections.list.add-form.fields.type.placeholder')}>
+                                            <Option value="monety">Monety</Option>
+                                            <Option value="fotografie">Fotografie</Option>
+                                            <Option value="znaczki">Znaczki</Option>
+                                            <Option value="albumy-muzyczne">Albumy muzyczne</Option>
+                                        </Select>
+                                    </Form.Item>
+                                )
+                            }
                         </Col>
-                        <Col span={10}>
+                        <Col xs={24} sm={10}>
                             <Form.Item
-                                name="image-upload"
+                                className="upload"
+                                name="image"
                                 label={t('collections.list.add-form.fields.image-upload.label')}
                                 valuePropName="fileList"
                                 getValueFromEvent={(event: any) => {

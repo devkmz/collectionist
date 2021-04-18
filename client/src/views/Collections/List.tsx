@@ -174,6 +174,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
             setIsAddModalVisible(false);
             getCollections();
             message.success(t('collections.list.edit-success'));
+            setSelectedCollection(undefined);
         } catch (error) {
             message.error(t('common.messages.error'));
         } finally {

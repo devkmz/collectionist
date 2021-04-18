@@ -9,6 +9,10 @@ const styles = (): SerializedStyles => css`
     background-repeat: no-repeat;
     background-color:#f7f7f7;
 
+    @media (max-width: 449px) {
+        padding-top: 45%;
+    }
+
     > .no-image {
         position: absolute;
         top: 0;

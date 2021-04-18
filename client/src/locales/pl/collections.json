@@ -12,6 +12,8 @@
         "delete-success": "Pomyślnie usunięto kolekcję",
         "add-collection": "Dodaj kolekcję",
         "add-success": "Pomyślnie dodano kolekcję",
+        "edit-collection": "Edytuj kolekcję",
+        "edit-success": "Pomyślnie zapisano kolekcję",
         "add-form": {
             "fields": {
                 "name": {

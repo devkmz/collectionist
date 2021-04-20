@@ -27,3 +27,16 @@ Route::delete('collections/{id}', 'App\Http\Controllers\CollectionController@del
 Route::post('/collections/file', 'App\Http\Controllers\FileController@store');
 Route::delete('/collections/file/{id}', 'App\Http\Controllers\FileController@delete');
 
+Route::get('types/{id}/attributes', 'App\Http\Controllers\CollectionTypeController@getAttributes');
+Route::post('types', 'App\Http\Controllers\CollectionTypeController@saveTypeWithAttributes');
+Route::put('types/{id}', 'App\Http\Controllers\CollectionTypeController@editTypeWithAttributes');
+
+Route::get('types', 'App\Http\Controllers\CollectionTypeController@index');
+Route::get('types/{id}', 'App\Http\Controllers\CollectionTypeController@show');
+Route::delete('types/{id}', 'App\Http\Controllers\CollectionTypeController@delete');
+
+Route::get('types/attributes', 'App\Http\Controllers\CollectionTypeAttributeController@index');
+Route::get('types/attributes/{id}', 'App\Http\Controllers\CollectionTypeAttributeController@show');
+Route::post('types/attributes', 'App\Http\Controllers\CollectionTypeAttributeController@store');
+Route::put('types/attributes/{id}', 'App\Http\Controllers\CollectionTypeAttributeController@update');
+Route::delete('types/attributes/{id}', 'App\Http\Controllers\CollectionTypeAttributeController@delete');

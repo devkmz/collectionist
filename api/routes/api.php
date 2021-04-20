@@ -30,10 +30,11 @@ Route::get('collections/file/{id}', 'App\Http\Controllers\FileController@show');
 
 Route::get('types/{id}/attributes', 'App\Http\Controllers\CollectionTypeController@getAttributes');
 Route::post('types', 'App\Http\Controllers\CollectionTypeController@saveTypeWithAttributes');
-Route::put('types/{id}', 'App\Http\Controllers\CollectionTypeController@editTypeWithAttributes');
+Route::put('types/{id}/attributes', 'App\Http\Controllers\CollectionTypeController@editTypeWithAttributes');
 
 Route::get('types', 'App\Http\Controllers\CollectionTypeController@index');
 Route::get('types/{id}', 'App\Http\Controllers\CollectionTypeController@show');
+Route::put('types/{id}', 'App\Http\Controllers\CollectionTypeController@update');
 Route::delete('types/{id}', 'App\Http\Controllers\CollectionTypeController@delete');
 
 Route::get('types/attributes', 'App\Http\Controllers\CollectionTypeAttributeController@index');

@@ -20,8 +20,6 @@ class CreateCollectionTypeAttributesTable extends Migration
             $table->bigInteger('collection_type_id');
             $table->timestamp('createdAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updatedAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            // $table->foreign('collectiontype_id')->references('collection_types')->on('')
-            // ->onDelete('cascade');
         });
     }
 

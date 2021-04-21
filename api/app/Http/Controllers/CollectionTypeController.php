@@ -51,18 +51,45 @@ class CollectionTypeController extends Controller
         return $data;
     }
 
+    // public function editTypeWithAttributes (Request $request, $id){
+
+    //     $collectionType = CollectionType::findOrFail($id);
+    //     $newTypeName = $request->input('typeName');
+    //     $collectionType->update(['typeName' => $newTypeName]);
+
+    //     DB::delete('DELETE FROM collection_type_attributes WHERE collection_type_id = ?', [$id]);
+
+    //     $newAttributes = $request->input('attributes');
+    //     for ($i = 0; $i < count($newAttributes); $i++) {
+    //         $newAttributes[$i]['collection_type_id'] = $id;
+    //         CollectionTypeAttribute::insert($newAttributes[$i]);
+    //     }
+    //     $updatedData = ['id' => $id, 'typeName' => $newTypeName, 'attributes' => $collectionType->attributes];
+    //     return $updatedData;
+    // }
+
     public function editTypeWithAttributes (Request $request, $id){
 
         $collectionType = CollectionType::findOrFail($id);
         $newTypeName = $request->input('typeName');
         $collectionType->update(['typeName' => $newTypeName]);
 
-        DB::delete('DELETE FROM collection_type_attributes WHERE collection_type_id = ?', [$id]);
+        $receivedAttributes = $request->input('attributes');
+        $ids = array_column($receivedAttributes, 'id');
 
-        $newAttributes = $request->input('attributes');
-        for ($i = 0; $i < count($newAttributes); $i++) {
-            $newAttributes[$i]['collection_type_id'] = $id;
-            CollectionTypeAttribute::insert($newAttributes[$i]);
+        DB::table('collection_type_attributes')
+                ->whereNotIn('id', $ids)
+                ->delete();
+
+        for ($i = 0; $i < count($receivedAttributes); $i++) {
+            if (isset($receivedAttributes[$i]['id'])) {
+                $singleAttribute = CollectionTypeAttribute::findOrFail($receivedAttributes[$i]['id']);
+                $singleAttribute->update($receivedAttributes[$i]);
+            }
+            else {
+                $receivedAttributes[$i]['collection_type_id'] = $id;
+                CollectionTypeAttribute::insert($receivedAttributes[$i]);
+            }
         }
         $updatedData = ['id' => $id, 'typeName' => $newTypeName, 'attributes' => $collectionType->attributes];
         return $updatedData;

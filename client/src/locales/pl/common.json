@@ -9,5 +9,16 @@
     },
     "messages": {
         "error": "Coś poszło nie tak. Spróbuj ponownie później"
+    },
+    "labels": {
+        "actions": "Czynności"
+    },
+    "constants": {
+        "attribute-data-types": {
+            "TEXT": "tekst",
+            "NUMBER": "liczba",
+            "DATE": "data",
+            "LOCATION": "lokalizacja"
+        }
     }
 }

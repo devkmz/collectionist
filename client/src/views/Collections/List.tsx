@@ -184,6 +184,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
 
     useEffect(() => {
         getCollections();
+        // eslint-disable-next-line
     }, []);
 
     const handleFileUpload = async (options: any) => {

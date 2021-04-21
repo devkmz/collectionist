@@ -1,10 +1,10 @@
 import { Layout } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
-import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import CollectionList from './Collections/List';
 import CollectionSingle from './Collections/Single';
+import CollectionTypeList from './CollectionTypes/List';
 import MobileNavbar from '../components/MobileNavbar';
 import Navbar from '../components/Navbar';
 import { User } from '../types/user';
@@ -88,6 +88,15 @@ const MainView = ({ user }: Props): JSX.Element => {
                             render={() => <CollectionSingle />}
                             exact
                         />
+                        {
+                            user?.role === 'ADMIN' && (
+                                <Route
+                                    path="/collection-types"
+                                    render={() => <CollectionTypeList />}
+                                    exact
+                                />
+                            )
+                        }
                         <Route
                             path="/"
                             render={() => <CollectionList user={user} />}

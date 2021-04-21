@@ -1,6 +1,7 @@
 import { Layout, Menu } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { User } from '../types/user';

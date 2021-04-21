@@ -1,0 +1,43 @@
+{
+    "list": {
+        "title": "Typy kolekcji",
+        "table": {
+            "columns": {
+                "name": "Nazwa typu",
+                "attributes-count": "Liczba atrybutów"
+            }
+        },
+        "delete-confirm": "Czy na pewno chcesz usunąć typ kolekcji",
+        "delete-collection-type": "Usuń typ kolekcji",
+        "delete-success": "Pomyślnie usunięto typ kolekcji",
+        "add-collection-type": "Dodaj typ kolekcji",
+        "edit-collection-type": "Edytuj typ kolekcji",
+        "add-success": "Pomyślnie dodano typ kolekcji",
+        "edit-success": "Pomyślnie zapisano typ kolekcji",
+        "add-form": {
+            "fields": {
+                "name": {
+                    "label": "Nazwa",
+                    "validation": "Wprowadź nazwę",
+                    "placeholder": "Wpisz nazwę..."
+                },
+                "attributes": {
+                    "label": "Atrybuty",
+                    "subfields": {
+                        "attr-name": {
+                            "validation":"Wprowadź nazwę",
+                            "placeholder": "Nazwa atrybutu"
+                        },
+                        "attr-type": {
+                            "validation": "Wybierz typ",
+                            "placeholder": "Typ danych"
+                        }
+                    }
+                }
+            },
+            "buttons": {
+                "add-new": "Dodaj nowy"
+            }
+        }
+    }
+}

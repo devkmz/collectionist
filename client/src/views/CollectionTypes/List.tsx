@@ -2,7 +2,7 @@ import { Breadcrumb, Button, Col, Form, Input, message, Modal, Row, Select, Spac
 import { ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { css, SerializedStyles } from '@emotion/core';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ATTRIBUTE_DATA_TYPES } from '../../constants/attributeDataTypes';

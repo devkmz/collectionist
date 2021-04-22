@@ -134,7 +134,7 @@ const CollectionTypeList = (): JSX.Element => {
     const editCollectionType = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.put(`http://localhost:8000/api/types/${selectedType?.id}`, values);
+            await axios.put(`http://localhost:8000/api/types/${selectedType?.id}/attributes`, values);
             setIsAddModalVisible(false);
             getCollectionTypes();
             message.success(t('collectionTypes.list.edit-success'));

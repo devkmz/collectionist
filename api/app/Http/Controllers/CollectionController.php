@@ -19,7 +19,7 @@ class CollectionController extends Controller
         $request->validate([
             'name' => 'required|max:50',
             'description' => 'required|max:150',
-            'type' => 'required|max:50',
+            'collection_type_id' => 'required',
             'image' => 'nullable',
         ]);
         return Collection::create($request->all());
@@ -29,7 +29,7 @@ class CollectionController extends Controller
         $request->validate([
             'name' => 'required|max:50',
             'description' => 'required|max:150',
-            'type' => 'required|max:50',
+            'collection_type_id' => 'required',
             'image' => 'nullable',
         ]);
         $collection = Collection::findOrFail($id);

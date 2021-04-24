@@ -28,6 +28,7 @@ Route::post('/collections/file', 'App\Http\Controllers\FileController@store');
 Route::delete('/collections/file/{id}', 'App\Http\Controllers\FileController@delete');
 
 Route::get('types/{id}/attributes', 'App\Http\Controllers\CollectionTypeController@getAttributes');
+Route::get('types/{id}/collections', 'App\Http\Controllers\CollectionTypeController@getCollections');
 Route::post('types', 'App\Http\Controllers\CollectionTypeController@saveTypeWithAttributes');
 Route::put('types/{id}', 'App\Http\Controllers\CollectionTypeController@editTypeWithAttributes');
 

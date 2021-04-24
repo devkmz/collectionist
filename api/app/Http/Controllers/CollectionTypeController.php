@@ -38,6 +38,10 @@ class CollectionTypeController extends Controller
         return CollectionType::find($id)->attributes;
     }
 
+    public function getCollections (Request $request, $id){
+        return CollectionType::find($id)->collections;
+    }
+
 
     public function saveTypeWithAttributes (Request $request){
 

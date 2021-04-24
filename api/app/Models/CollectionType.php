@@ -16,4 +16,8 @@ class CollectionType extends Model
     public function attributes () {
         return $this->hasMany('App\Models\CollectionTypeAttribute');
     }
+
+    public function collections () {
+        return $this->hasMany('App\Models\Collection');
+    }
 }

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 import CardImage from '../../components/CardImage';
 import { Collection } from '../../types/collection';
+import { CollectionType } from '../../types/collectionType';
 import { User } from '../../types/user';
 
 const { confirm } = Modal;
@@ -110,6 +111,7 @@ interface Props {
 
 const CollectionList = ({ user }: Props): JSX.Element => {
     const [data, setData] = useState<Array<Collection>>([]);
+    const [typesList, setTypesList] = useState<Array<CollectionType>>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const { t } = useTranslation();
@@ -125,6 +127,8 @@ const CollectionList = ({ user }: Props): JSX.Element => {
             setIsLoading(true);
             const response = await axios.get('http://localhost:8000/api/collections');
             setData(response.data);
+            const types = await axios.get('http://localhost:8000/api/types');
+            setTypesList(types.data);
         } catch (error) {
             message.error(t('common.messages.error'));
         } finally {
@@ -303,7 +307,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                                                                 addForm.setFieldsValue({
                                                                                     name: item.name,
                                                                                     description: item.description,
-                                                                                    type: item.type,
+                                                                                    collection_type_id: item.collection_type_id,
                                                                                     image: !!item.image?.id ? [
                                                                                         {
                                                                                             name: item.image?.name,
@@ -373,7 +377,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                     } else {
                         addForm.validateFields()
                         .then(values => {
-                            editCollection({...values, type: selectedCollection.type, image: (!!imageData?.id ? imageData : 0)});
+                            editCollection({...values, collection_type_id: selectedCollection.collection_type_id, image: (!!imageData?.id ? imageData : 0)});
                         })
                         .catch(error => {});
                     }
@@ -418,7 +422,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                             {
                                 !selectedCollection && (
                                     <Form.Item
-                                        name="type"
+                                        name="collection_type_id"
                                         label={t('collections.list.add-form.fields.type.label')}
                                         rules={[
                                             {
@@ -427,11 +431,20 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                             }
                                         ]}
                                     >
-                                        <Select placeholder={t('collections.list.add-form.fields.type.placeholder')}>
-                                            <Option value="monety">Monety</Option>
-                                            <Option value="fotografie">Fotografie</Option>
-                                            <Option value="znaczki">Znaczki</Option>
-                                            <Option value="albumy-muzyczne">Albumy muzyczne</Option>
+                                        <Select
+                                            placeholder={t('collections.list.add-form.fields.type.placeholder')}
+                                            notFoundContent={
+                                                <>
+                                                    <div>{ t('common.messages.no-data') }</div>
+                                                    <Link to="/collection-types">{ t('collectionTypes.list.add-collection-type') }</Link>
+                                                </>
+                                            }
+                                        >
+                                            {
+                                                typesList.map(type => (
+                                                    <Option key={`type-${type.id}`} value={type.id}>{ type.typeName }</Option>
+                                                ))
+                                            }
                                         </Select>
                                     </Form.Item>
                                 )

@@ -2,12 +2,12 @@ export type Collection = {
     id: number;
     name: string;
     description: string;
-    type: string;
+    collection_type_id: number;
     image?: {
         id: number;
         name: string;
         url: string;
     };
-    created_at?: string;
-    updated_at?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }

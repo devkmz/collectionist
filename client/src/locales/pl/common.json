@@ -8,7 +8,8 @@
         "cancel": "Anuluj"
     },
     "messages": {
-        "error": "Coś poszło nie tak. Spróbuj ponownie później"
+        "error": "Coś poszło nie tak. Spróbuj ponownie później",
+        "no-data": "Brak danych"
     },
     "labels": {
         "actions": "Czynności"

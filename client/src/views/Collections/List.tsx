@@ -431,7 +431,15 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                             }
                                         ]}
                                     >
-                                        <Select placeholder={t('collections.list.add-form.fields.type.placeholder')}>
+                                        <Select
+                                            placeholder={t('collections.list.add-form.fields.type.placeholder')}
+                                            notFoundContent={
+                                                <>
+                                                    <div>{ t('common.messages.no-data') }</div>
+                                                    <Link to="/collection-types">{ t('collectionTypes.list.add-collection-type') }</Link>
+                                                </>
+                                            }
+                                        >
                                             {
                                                 typesList.map(type => (
                                                     <Option key={`type-${type.id}`} value={type.id}>{ type.typeName }</Option>

@@ -10,6 +10,7 @@
         "delete-confirm": "Czy na pewno chcesz usunąć typ kolekcji",
         "delete-collection-type": "Usuń typ kolekcji",
         "delete-success": "Pomyślnie usunięto typ kolekcji",
+        "delete-fail-type-in-use": "Nie można usunąć, typ używany przez kolekcje",
         "add-collection-type": "Dodaj typ kolekcji",
         "edit-collection-type": "Edytuj typ kolekcji",
         "add-success": "Pomyślnie dodano typ kolekcji",

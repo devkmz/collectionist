@@ -111,7 +111,9 @@ const CollectionTypeList = (): JSX.Element => {
                     message.success(t('collectionTypes.list.delete-success'));
                     getCollectionTypes();
                 } catch (error) {
-                    message.error(t('common.messages.error'));
+                    message.error(error.response.status === 409
+                        ? t('collectionTypes.list.delete-fail-type-in-use')
+                        : t('common.messages.error'));
                 }
             }
         });

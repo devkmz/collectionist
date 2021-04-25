@@ -29,9 +29,14 @@ class CollectionTypeController extends Controller
 
     public function delete (Request $request, $id) {
         $collectionType = CollectionType::findOrFail($id);
-        $collectionType->delete();
-        DB::delete('DELETE FROM collection_type_attributes WHERE collection_type_id = ?', [$id]);
-        return 204;
+        $collectionsBelongToType = $collectionType->collections;
+
+        if (!count($collectionsBelongToType)) {
+            $collectionType->delete();
+            DB::delete('DELETE FROM collection_type_attributes WHERE collection_type_id = ?', [$id]);
+            return 204;
+        }
+        else return 209;
     }
 
     public function getAttributes (Request $request, $id){

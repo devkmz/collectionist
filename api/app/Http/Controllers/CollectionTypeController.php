@@ -36,7 +36,7 @@ class CollectionTypeController extends Controller
             DB::delete('DELETE FROM collection_type_attributes WHERE collection_type_id = ?', [$id]);
             return 204;
         }
-        else return abort(209);
+        else return abort(409);
     }
 
     public function getAttributes (Request $request, $id){

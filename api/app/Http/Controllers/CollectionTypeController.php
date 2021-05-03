@@ -60,22 +60,6 @@ class CollectionTypeController extends Controller
         return $data;
     }
 
-    // public function editTypeWithAttributes (Request $request, $id){
-
-    //     $collectionType = CollectionType::findOrFail($id);
-    //     $newTypeName = $request->input('typeName');
-    //     $collectionType->update(['typeName' => $newTypeName]);
-
-    //     DB::delete('DELETE FROM collection_type_attributes WHERE collection_type_id = ?', [$id]);
-
-    //     $newAttributes = $request->input('attributes');
-    //     for ($i = 0; $i < count($newAttributes); $i++) {
-    //         $newAttributes[$i]['collection_type_id'] = $id;
-    //         CollectionTypeAttribute::insert($newAttributes[$i]);
-    //     }
-    //     $updatedData = ['id' => $id, 'typeName' => $newTypeName, 'attributes' => $collectionType->attributes];
-    //     return $updatedData;
-    // }
 
     public function editTypeWithAttributes (Request $request, $id){
 

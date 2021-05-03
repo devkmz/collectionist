@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Collection;
+use App\Models\CollectionElement;
+use App\Models\ElementsAttributes;
+
 
 class CollectionController extends Controller
 {
@@ -41,5 +44,13 @@ class CollectionController extends Controller
         $collection = Collection::findOrFail($id);
         $collection->delete();
         return 204;
+    }
+
+    public function getElements (Request $request, $id){
+        $elements = Collection::find($id)->elements;
+        foreach ($elements as $element){
+            $element->elementsAttributes;
+        }
+        return $elements;
     }
 }

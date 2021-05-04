@@ -13,7 +13,7 @@ class ElementsAttributes extends Model
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
     protected $primaryKey = ['element_id', 'attribute_id'];
-    protected $fillable = ['value'];
+    protected $fillable = ['value', 'attributeName'];
     public $incrementing = false;
 
     /**

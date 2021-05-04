@@ -16,6 +16,7 @@ class CreateElementsAttributesTable extends Migration
         Schema::create('elements_attributes', function (Blueprint $table) {
             $table->bigInteger('element_id')->unsigned();
             $table->bigInteger('attribute_id')->unsigned();
+            $table->string('attributeName');
             $table->string('value');
             $table->timestamp('createdAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updatedAt')->default(\DB::raw('CURRENT_TIMESTAMP'));

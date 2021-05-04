@@ -34,7 +34,7 @@ class CollectionTypeController extends Controller
         if (!count($collectionsBelongToType)) {
             $collectionType->delete();
             DB::delete('DELETE FROM collection_type_attributes WHERE collection_type_id = ?', [$id]);
-            return 204;
+            return response()->noContent();
         }
         else return abort(209);
     }

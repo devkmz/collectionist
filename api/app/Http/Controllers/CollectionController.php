@@ -43,7 +43,7 @@ class CollectionController extends Controller
     public function delete (Request $request, $id) {
         $collection = Collection::findOrFail($id);
         $collection->delete();
-        return 204;
+        return response()->noContent();
     }
 
     public function getElements (Request $request, $id){

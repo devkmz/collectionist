@@ -43,7 +43,7 @@ class CollectionElementController extends Controller
     public function delete (Request $request, $id) {
         $collectionElement = CollectionElement::findOrFail($id);
         $collectionElement->delete();
-        return 204;
+        return response()->noContent();
     }
 
     public function saveElementWithValues (Request $request, $id){
@@ -65,7 +65,8 @@ class CollectionElementController extends Controller
         for ($i = 0; $i < count($attributeValues); $i++) {
             ElementsAttributes::insert([
                 'element_id'=> $elementId, 
-                'attribute_id' => $attributeValues[$i]['id'], 
+                'attribute_id' => $attributeValues[$i]['id'],
+                'attributeName' => $attributeValues[$i]['attributeName'],
                 'value' => $attributeValues[$i]['value']
             ]);
         }

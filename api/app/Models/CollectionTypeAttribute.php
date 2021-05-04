@@ -14,6 +14,6 @@ class CollectionTypeAttribute extends Model
     protected $fillable = ['attributeName', 'attributeType', 'collection_type_id'];
 
     public function elementsAttributes () {
-        return $this->hasMany('App\Models\ElementsAttributes', 'attribute_id');
+        return $this->hasMany(ElementsAttributes::class, 'attribute_id');
     }
 }

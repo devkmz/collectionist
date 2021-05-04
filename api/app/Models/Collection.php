@@ -19,6 +19,6 @@ class Collection extends Model
     }
 
     public function elements () {
-        return $this->hasMany('App\Models\CollectionElement');
+        return $this->hasMany(CollectionElement::class);
     }
 }

@@ -15,6 +15,6 @@ class CollectionElement extends Model
     protected $casts = ['elementImage' => 'array'];
 
     public function elementsAttributes () {
-        return $this->hasMany('App\Models\ElementsAttributes', 'element_id');
+        return $this->hasMany(ElementsAttributes::class, 'element_id');
     }
 }

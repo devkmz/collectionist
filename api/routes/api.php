@@ -49,3 +49,13 @@ Route::get('collections/{id}/elements', 'App\Http\Controllers\CollectionControll
 Route::put('collections/elements/{id}', 'App\Http\Controllers\CollectionElementController@update');
 Route::get('collections/elements/{id}', 'App\Http\Controllers\CollectionElementController@show');
 Route::delete('collections/elements/{id}', 'App\Http\Controllers\CollectionElementController@delete');
+
+Route::post('register', 'App\Http\Controllers\UserController@register');
+Route::post('login', 'App\Http\Controllers\UserController@authenticate');
+Route::get('open', 'App\Http\Controllers\DataController@open');
+
+Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::get('user', 'App\Http\Controllers\UserController@getAuthenticatedUser');
+    Route::get('closed', 'App\Http\Controllers\DataController@closed');
+});
+

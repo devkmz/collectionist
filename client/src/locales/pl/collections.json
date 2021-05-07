@@ -44,6 +44,52 @@
         }
     },
     "single": {
-        "title": "Kolekcja"
+        "title": "Kolekcja",
+        "sections": {
+            "aside": {
+                "filtering": "Filtrowanie i eksport"
+            }
+        },
+        "delete-collection-element": "Usuń element kolekcji",
+        "delete-confirm": "Czy na pewno chcesz usunąć element kolekcji",
+        "delete-success": "Pomyślnie usunięto element kolekcji",
+        "add-collection-element": "Dodaj element kolekcji",
+        "add-success": "Pomyślnie dodano element kolekcji",
+        "edit-collection-element": "Edytuj element kolekcji",
+        "edit-success": "Pomyślnie zapisano element kolekcji",
+        "add-form": {
+            "fields": {
+                "name": {
+                    "label": "Nazwa",
+                    "validation": "Wprowadź nazwę",
+                    "placeholder": "Wpisz nazwę..."
+                },
+                "description": {
+                    "label": "Opis",
+                    "validation": "Wprowadź opis",
+                    "placeholder": "Wpisz opis..."
+                },
+                "attributes": {
+                    "label": "Atrybuty",
+                    "validation": {
+                        "input": "Wpisz wartość atrybutu",
+                        "select": "Wybierz wartość atrybutu"
+                    },
+                    "placeholder": {
+                        "input": "Wpisz wartość...",
+                        "select": "Wybierz wartość"
+                    }
+                },
+                "image-upload": {
+                    "label": "Miniaturka",
+                    "validation": "Wczytaj plik obrazka"
+                }
+            },
+            "upload-button": {
+                "heading": "Wczytaj plik",
+                "subheading": "Dozwolone typy plików",
+                "file-formats": "*.jpg, *.png"
+            }
+        }
     }
 }

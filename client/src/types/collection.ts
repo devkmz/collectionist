@@ -1,3 +1,5 @@
+import { CollectionElement } from "./collectionElement";
+
 export type Collection = {
     id: number;
     name: string;
@@ -8,6 +10,7 @@ export type Collection = {
         name: string;
         url: string;
     };
+    elements?: Array<CollectionElement>;
     createdAt?: string;
     updatedAt?: string;
 }

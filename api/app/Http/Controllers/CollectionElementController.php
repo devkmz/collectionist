@@ -14,7 +14,9 @@ class CollectionElementController extends Controller
     }
 
     public function show ($id) {
-        return CollectionElement::find($id);
+        $collectionElement = CollectionElement::findOrFail($id);
+        $attributeValues = $collectionElement->elementsAttributes;
+        return $collectionElement;
     }
 
     public function store(Request $request) {

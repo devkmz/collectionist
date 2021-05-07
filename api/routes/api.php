@@ -47,4 +47,5 @@ Route::delete('types/attributes/{id}', 'App\Http\Controllers\CollectionTypeAttri
 Route::post('collections/{id}/elements', 'App\Http\Controllers\CollectionElementController@saveElementWithValues');
 Route::get('collections/{id}/elements', 'App\Http\Controllers\CollectionController@getElements');
 Route::put('collections/elements/{id}', 'App\Http\Controllers\CollectionElementController@update');
+Route::get('collections/elements/{id}', 'App\Http\Controllers\CollectionElementController@show');
 Route::delete('collections/elements/{id}', 'App\Http\Controllers\CollectionElementController@delete');

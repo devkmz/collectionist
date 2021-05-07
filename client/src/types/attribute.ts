@@ -9,4 +9,5 @@ export type Attribute = {
     attributeName: string;
     attributeType: AttributeDataType;
     collection_type_id: number;
+    value?: any;
 }

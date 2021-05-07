@@ -444,7 +444,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                             fields.map(({ key, name, fieldKey, ...restField }) => (
                                                 <Col xs={12} className="attribute">
                                                     {  
-                                                        !!collectionTypeAttributes && collectionTypeAttributes[key].attributeType === 'TEXT' && (
+                                                        !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'TEXT' && (
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[name, 'value']}
@@ -462,7 +462,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                                         )
                                                     }
                                                     {
-                                                        !!collectionTypeAttributes && collectionTypeAttributes[key].attributeType === 'NUMBER' && (
+                                                        !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'NUMBER' && (
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[name, 'value']}
@@ -480,7 +480,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                                         )
                                                     }
                                                     {
-                                                        !!collectionTypeAttributes && collectionTypeAttributes[key].attributeType === 'DATE' && (
+                                                        !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'DATE' && (
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[name, 'value']}
@@ -498,7 +498,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                                         )
                                                     }
                                                     {
-                                                        !!collectionTypeAttributes && collectionTypeAttributes[key].attributeType === 'LOCATION' && (
+                                                        !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'LOCATION' && (
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[name, 'value']}

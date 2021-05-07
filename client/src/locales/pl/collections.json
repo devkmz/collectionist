@@ -73,11 +73,15 @@
                     "label": "Atrybuty",
                     "validation": {
                         "input": "Wpisz wartość atrybutu",
-                        "select": "Wybierz wartość atrybutu"
+                        "select": "Wybierz wartość atrybutu",
+                        "datepicker": "Wybierz datę",
+                        "location": "Podaj lokalizację"
                     },
                     "placeholder": {
                         "input": "Wpisz wartość...",
-                        "select": "Wybierz wartość"
+                        "select": "Wybierz wartość",
+                        "datepicker": "Wybierz datę...",
+                        "location": "Podaj lokalizację..."
                     }
                 },
                 "image-upload": {

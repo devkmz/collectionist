@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import CollectionList from './Collections/List';
 import CollectionSingle from './Collections/Single';
+import CollectionElementSingle from './CollectionElements/Single';
 import CollectionTypeList from './CollectionTypes/List';
 import MobileNavbar from '../components/MobileNavbar';
 import Navbar from '../components/Navbar';
@@ -138,11 +139,11 @@ const MainView = ({ user }: Props): JSX.Element => {
                             render={() => <CollectionSingle user={user} />}
                             exact
                         />
-                        {/* <Route
+                        <Route
                             path="/collections/:id/elements/:elementId"
                             render={() => <CollectionElementSingle />}
                             exact
-                        /> */}
+                        />
                         {
                             user?.role === 'ADMIN' && (
                                 <Route

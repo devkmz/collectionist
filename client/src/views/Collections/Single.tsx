@@ -55,6 +55,10 @@ interface Props {
     user?: User;
 }
 
+interface Params {
+    id?: string;
+}
+
 const CollectionSingle = ({ user }: Props): JSX.Element => {
     const [collection, setCollection] = useState<Collection | undefined>(undefined);
     const [collectionTypeAttributes, setCollectionTypeAttributes] = useState<Array<Attribute>>([]);
@@ -69,7 +73,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
     const [imageData, setImageData] = useState<any>(undefined);
     const [selectedCollectionElement, setSelectedCollectionElement] = useState<CollectionElement>();
 
-    const { id }: any = useParams();
+    const { id }: Params = useParams();
 
     const getCollection = async () => {
         try {
@@ -171,7 +175,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
         } catch (error) {
             onError();
             message.error(t('common.messages.error'));
-        };
+        }
     };
 
     const handleOnFileChange = ({ fileList }: any) => {
@@ -256,14 +260,14 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                                             <Card
                                                                 cover={<CardImage imageUrl={item.elementImage?.url} />}
                                                                 actions={user?.role === 'ADMIN' ? [
-                                                                    <Tooltip title={t('common.actions.view')}>
+                                                                    <Tooltip key="view" title={t('common.actions.view')}>
                                                                         <Link to={`/collections/${id}/elements/${item.id}`}>
                                                                             <div className="action-wrapper">
                                                                                 <EyeOutlined key="view" />
                                                                             </div>
                                                                         </Link>
                                                                     </Tooltip>,
-                                                                    <Tooltip title={t('common.actions.edit')}>
+                                                                    <Tooltip key="edit" title={t('common.actions.edit')}>
                                                                         <div
                                                                             className="action-wrapper"
                                                                             onClick={(e) => {
@@ -300,7 +304,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                                                             <EditOutlined key="edit" />
                                                                         </div>
                                                                     </Tooltip>,
-                                                                    <Tooltip title={t('common.actions.delete')}>
+                                                                    <Tooltip key="delete" title={t('common.actions.delete')}>
                                                                         <div
                                                                             className="action-wrapper"
                                                                             onClick={(e) => {
@@ -312,7 +316,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                                                         </div>
                                                                     </Tooltip>
                                                                 ] : [
-                                                                        <Button type="link">{ t('common.actions.view') }</Button>
+                                                                        <Button key="view" type="link">{ t('common.actions.view') }</Button>
                                                                     ]}
                                                             >
                                                                 <Meta
@@ -442,7 +446,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                     <Row gutter={[24, 0]}>
                                         {
                                             fields.map(({ key, name, fieldKey, ...restField }) => (
-                                                <Col xs={12} className="attribute">
+                                                <Col xs={12} key={key} className="attribute">
                                                     {  
                                                         !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'TEXT' && (
                                                             <Form.Item

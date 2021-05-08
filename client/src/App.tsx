@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import React from 'react';
 
 import { User } from './types/user';
 import MainView from './views/MainView';

@@ -13,4 +13,12 @@ class Collection extends Model
     const UPDATED_AT = 'updatedAt';
     protected $fillable = ['name', 'description', 'collection_type_id', 'image'];
     protected $casts = ['image' => 'array'];
+
+    public function type(){
+        return $this->belongsTo(CollectionType::class);
+    }
+
+    public function elements () {
+        return $this->hasMany(CollectionElement::class);
+    }
 }

@@ -14,10 +14,10 @@ class CollectionType extends Model
     protected $fillable = ['typeName'];
     
     public function attributes () {
-        return $this->hasMany('App\Models\CollectionTypeAttribute');
+        return $this->hasMany(CollectionTypeAttribute::class);
     }
 
     public function collections () {
-        return $this->hasMany('App\Models\Collection');
+        return $this->hasMany(Collection::class);
     }
 }

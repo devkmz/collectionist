@@ -12,4 +12,8 @@ class CollectionTypeAttribute extends Model
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
     protected $fillable = ['attributeName', 'attributeType', 'collection_type_id'];
+
+    public function elementsAttributes () {
+        return $this->hasMany(ElementsAttributes::class, 'attribute_id');
+    }
 }

@@ -47,6 +47,6 @@ class FileController extends Controller
         $file = File::findOrFail($id);
         unlink('storage/'.$file->name);
         $file->delete();
-        return 204;
+        return response()->noContent();
     }
 }

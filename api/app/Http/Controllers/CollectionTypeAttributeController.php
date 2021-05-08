@@ -28,6 +28,6 @@ class CollectionTypeAttributeController extends Controller
     public function delete (Request $request, $id) {
         $CollectionTypeAttribute = CollectionTypeAttribute::findOrFail($id);
         $CollectionTypeAttribute->delete();
-        return 204;
+        return response()->noContent();
     }
 }

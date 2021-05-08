@@ -15,7 +15,13 @@ class CreateCollectionElementsTable extends Migration
     {
         Schema::create('collection_elements', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('elementName');
+            $table->string('elementDescription');
+            $table->bigInteger('collection_id');
+            $table->json('elementImage')->default(0);
+            // $table->json('elementImage')->nullable();
+            $table->timestamp('createdAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updatedAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

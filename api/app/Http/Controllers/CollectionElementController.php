@@ -69,6 +69,7 @@ class CollectionElementController extends Controller
                 'element_id'=> $elementId, 
                 'attribute_id' => $attributeValues[$i]['id'],
                 'attributeName' => $attributeValues[$i]['attributeName'],
+                'attributeType' => $attributeValues[$i]['attributeType'],
                 'value' => $attributeValues[$i]['value']
             ]);
         }

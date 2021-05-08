@@ -17,6 +17,7 @@ class CreateElementsAttributesTable extends Migration
             $table->bigInteger('element_id')->unsigned();
             $table->bigInteger('attribute_id')->unsigned();
             $table->string('attributeName');
+            $table->string('attributeType');
             $table->string('value');
             $table->timestamp('createdAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updatedAt')->default(\DB::raw('CURRENT_TIMESTAMP'));

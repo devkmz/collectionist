@@ -1,0 +1,9 @@
+{
+    "list": {
+        "title": "Użytkownicy"
+    },
+    "profile": {
+        "edit": "Edytuj profil",
+        "guest": "Gość"
+    }
+}

@@ -125,7 +125,6 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
     const addCollectionElement = async (values: any) => {
         try {
             setIsSaving(true);
-            console.log(values);
             await axios.post(`http://localhost:8000/api/collections/${id}/elements`, values);
             setIsAddModalVisible(false);
             getCollectionElements();

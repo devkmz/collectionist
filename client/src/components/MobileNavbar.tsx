@@ -93,7 +93,7 @@ const MobileNavbar = ({ user }: Props): JSX.Element => {
                                 key="collection-types"
                                 onClick={() => setIsMenuOpen(false)}
                             >
-                                <Link to="/collection-types">Typy kolekcji</Link>
+                                <Link to="/collection-types">{ t('collectionTypes.list.title') }</Link>
                             </Menu.Item>
                         )
                     }
@@ -103,7 +103,7 @@ const MobileNavbar = ({ user }: Props): JSX.Element => {
                                 key="users"
                                 onClick={() => setIsMenuOpen(false)}
                             >
-                                <Link to="/users">Użytkownicy</Link>
+                                <Link to="/users">{ t('users.list.title') }</Link>
                             </Menu.Item>
                         )
                     }
@@ -113,14 +113,14 @@ const MobileNavbar = ({ user }: Props): JSX.Element => {
                                 key="edit-profile"
                                 onClick={() => setIsMenuOpen(false)}
                             >
-                                <span>Edytuj profil</span>
+                                <span>{ t('users.profile.edit') }</span>
                             </Menu.Item>
                         ) : (
                             <Menu.Item
-                                key="sign-in"
+                                key="login"
                                 onClick={() => setIsMenuOpen(false)}
                             >
-                                <span>Zaloguj się</span>
+                                <Link to="/login">{ t('login.common.link.log-in') }</Link>
                             </Menu.Item>
                         )
                     }

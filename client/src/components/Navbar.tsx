@@ -1,9 +1,10 @@
 import { Layout, Menu } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
-import { useTranslation } from 'react-i18next';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
+import { useUser } from '../UserContext';
 import { User } from '../types/user';
 
 const styles = (): SerializedStyles => css`
@@ -38,6 +39,7 @@ interface Props {
 
 const Navbar = ({ user }: Props): JSX.Element => {
     const { t } = useTranslation();
+    const { clearUser } = useUser();
     
     return (
         <Header className="header" css={styles}>
@@ -54,7 +56,7 @@ const Navbar = ({ user }: Props): JSX.Element => {
                             <Menu.Item
                                 key="collection-types"
                             >
-                                <Link to="/collection-types">Typy kolekcji</Link>
+                                <Link to="/collection-types">{ t('collectionTypes.list.title') }</Link>
                             </Menu.Item>
                         )
                     }
@@ -63,7 +65,7 @@ const Navbar = ({ user }: Props): JSX.Element => {
                             <Menu.Item
                                 key="users"
                             >
-                                <Link to="/users">Użytkownicy</Link>
+                                <Link to="/users">{ t('users.list.title') }</Link>
                             </Menu.Item>
                         )
                     }
@@ -72,13 +74,23 @@ const Navbar = ({ user }: Props): JSX.Element => {
                             <Menu.Item
                                 key="edit-profile"
                             >
-                                <span>Edytuj profil</span>
+                                <span>{ t('users.profile.edit') }</span>
                             </Menu.Item>
-                        ) : (
+                        ) : (  
                             <Menu.Item
-                                key="sign-in"
+                                key="login"
                             >
-                                <span>Zaloguj się</span>
+                                <Link to="/login">{ t('login.common.link.log-in') }</Link>
+                            </Menu.Item>
+                        )
+                    }
+                    {
+                        user?.id && (
+                            <Menu.Item
+                                key="logout"
+                                onClick={() => clearUser() }
+                            >
+                                <span>{ t('login.common.link.log-out') }</span>
                             </Menu.Item>
                         )
                     }

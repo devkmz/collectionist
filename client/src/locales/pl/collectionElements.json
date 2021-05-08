@@ -1,3 +1,12 @@
 {
-    
+    "single": {
+        "actions-menu": {
+            "return-to-collection": "Powrót do kolekcji",
+            "download-report": {
+                "pdf": "Pobierz raport (PDF)",
+                "xlsx": "Pobierz raport (XLSX)"
+            }
+        },
+        "details": "Szczegółowe informacje"
+    }
 }

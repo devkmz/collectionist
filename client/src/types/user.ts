@@ -5,10 +5,11 @@ export type UserRole =
 
 export type User = {
     id: number;
-    username?: string;
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    createdAt?: string;
-    role?: UserRole;
+    email: string;
+    email_verified_at?: string | null;
+    created_at?: string;
+    updated_at?: string;
+    role: UserRole;
+    firstName?: string | null;
+    lastName?: string | null;
 };

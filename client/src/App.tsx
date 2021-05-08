@@ -1,30 +1,84 @@
 import { message } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import { User } from './types/user';
+import { useUser } from './UserContext';
+import ForgotPassword from './views/Login/ForgotPassword';
+import LoginForm from './views/Login/Login';
+import RegisterForm from './views/Login/Register';
 import MainView from './views/MainView';
 
 message.config({
   getContainer: () => document.body
 });
 
-const getCurrentUser = (): User => {
-  return {
-    id: 1,
-    username: 'Test',
-    email: 'test@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    createdAt: '2021-04-08T19:58:32Z',
-    role: 'ADMIN'
-  }
-};
-
 const App = (): JSX.Element => {
-  const currentUser: User = getCurrentUser();
+  const { user: currentUser, loadUser } = useUser();
+
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
 
   return (
-    <MainView user={currentUser} />
+    <Switch>
+      <Route
+          path="/collections"
+          render={() => <MainView user={currentUser} type={"collections"} />}
+          exact
+      />
+      <Route
+          path="/collections/:id"
+          render={() => <MainView user={currentUser} type={"collections-single"} />}
+          exact
+      />
+      <Route
+          path="/collections/:id/elements/:elementId"
+          render={() => <MainView user={currentUser} type={"collection-element-single"} />}
+          exact
+      />
+      {
+        currentUser?.role === 'ADMIN' && (
+          <Route
+              path="/collection-types"
+              render={() => <MainView user={currentUser} type={"collection-types"} />}
+              exact
+          />
+        )
+      }
+      {
+        !currentUser && (
+          <Route
+            path="/register"
+            render={() => <RegisterForm />}
+            exact
+          />
+        )
+      }
+      {
+        !currentUser && (
+          <Route
+            path="/login"
+            render={() => <LoginForm />}
+            exact
+          />
+        )
+      }
+      {
+        !currentUser && (
+          <Route
+            path="/forgot-password"
+            render={() => <ForgotPassword />}
+            exact
+          />
+        )
+      }
+      <Route
+          path="/"
+          render={() => <MainView user={currentUser} type={"collections"} />}
+          exact
+      />
+    </Switch>
   );
 }
 

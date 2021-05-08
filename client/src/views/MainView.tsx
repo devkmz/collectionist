@@ -1,7 +1,6 @@
 import { Layout } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
 
 import CollectionList from './Collections/List';
 import CollectionSingle from './Collections/Single';
@@ -9,6 +8,7 @@ import CollectionElementSingle from './CollectionElements/Single';
 import CollectionTypeList from './CollectionTypes/List';
 import MobileNavbar from '../components/MobileNavbar';
 import Navbar from '../components/Navbar';
+import TopBar from '../components/TopBar';
 import { User } from '../types/user';
 
 const styles = (): SerializedStyles => css`
@@ -119,47 +119,33 @@ const { Content } = Layout;
 
 interface Props {
     user?: User;
+    type: "collections" | "collection-types" | "collections-single" | "collection-element-single"; 
 }
 
-const MainView = ({ user }: Props): JSX.Element => {
+const MainView = ({ user, type }: Props): JSX.Element => {
+    const renderSwitch = (type: string): JSX.Element => {
+        switch(type) {
+            case "collections":
+                return <CollectionList user={user} />;
+            case "collections-single":
+                return <CollectionSingle user={user} />;
+            case "collection-element-single":
+                return <CollectionElementSingle />;
+            case "collection-types":
+                return <CollectionTypeList />;
+            default:
+                return <CollectionList user={user} />;
+        }
+    };
+
     return (
         <Layout css={styles}>
+            <TopBar user={user} />
             <Navbar user={user} />
             <MobileNavbar user={user} />
             <Content>
                 <div className="container">
-                    <Switch>
-                        <Route
-                            path="/collections"
-                            render={() => <CollectionList user={user} />}
-                            exact
-                        />
-                        <Route
-                            path="/collections/:id"
-                            render={() => <CollectionSingle user={user} />}
-                            exact
-                        />
-                        <Route
-                            path="/collections/:id/elements/:elementId"
-                            render={() => <CollectionElementSingle />}
-                            exact
-                        />
-                        {
-                            user?.role === 'ADMIN' && (
-                                <Route
-                                    path="/collection-types"
-                                    render={() => <CollectionTypeList />}
-                                    exact
-                                />
-                            )
-                        }
-                        <Route
-                            path="/"
-                            render={() => <CollectionList user={user} />}
-                            exact
-                        />
-                        <Route render={() => <Redirect to="/" />} />
-                    </Switch>
+                    { renderSwitch(type) }
                 </div>
             </Content>
         </Layout>

@@ -11,15 +11,18 @@ import App from './App';
 import './index.css';
 import './i18n';
 import reportWebVitals from './reportWebVitals';
+import { UserProvider } from './UserContext';
 
 moment.locale('pl');
 
 ReactDOM.render(
-  <BrowserRouter>
-    <ConfigProvider locale={plPL}>
-      <App />
-    </ConfigProvider>
-  </BrowserRouter>,
+  <UserProvider>
+    <BrowserRouter>
+      <ConfigProvider locale={plPL}>
+        <App />
+      </ConfigProvider>
+    </BrowserRouter>
+  </UserProvider>,
   document.getElementById('root')
 );
 

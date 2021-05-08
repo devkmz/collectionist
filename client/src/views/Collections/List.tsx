@@ -292,8 +292,10 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                                                                         </div>
                                                                     </Tooltip>
                                                                 ] : [
+                                                                    <div className="action-wrapper">
                                                                         <Button type="link">{ t('common.actions.view') }</Button>
-                                                                    ]}
+                                                                    </div>
+                                                                ]}
                                                             >
                                                                 <Meta
                                                                     title={item.name}

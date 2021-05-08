@@ -1,0 +1,63 @@
+{
+    "common": {
+        "form": {
+            "fields": {
+                "email": {
+                    "required": "Podaj adres e-mail",
+                    "wrong-format": "Niepoprawny format adresu e-mail",
+                    "placeholder": "Adres e-mail"
+                },
+                "password": {
+                    "required": "Podaj hasło",
+                    "placeholder": "Hasło"
+                },
+                "confirm-password": {
+                    "required": "Powtórz hasło",
+                    "placeholder": "Powtórz hasło",
+                    "password-mismatch": "Podane hasła różnią się"
+                }
+            }
+        },
+        "footer": {
+            "link": {
+                "return-to-login": "Powrót do logowania"
+            }
+        },
+        "link": {
+            "log-in": "Zaloguj się",
+            "log-out": "Wyloguj"
+        }
+    },
+    "login-form": {
+        "header": "Logowanie",
+        "form": {
+            "buttons": {
+                "login": "Zaloguj"
+            }
+        },
+        "footer": {
+            "link": {
+                "forgot-password": "Resetuj hasło",
+                "register": "Nie masz konta? Zarejestruj się"
+            }
+        }
+    },
+    "forgot-password": {
+        "header": "Resetuj hasło",
+        "info": "W celu zresetowania hasła skontaktuj się z Administratorem serwisu pod adresem"
+    },
+    "register-form": {
+        "header": "Rejestracja",
+        "form": {
+            "fields": {
+                "password": {
+                    "min-length": "Hasło musi mieć min. 8 znaków",
+                    "max-length": "Hasło może mieć max. 16 znaków"
+                }
+            },
+            "buttons": {
+                "register": "Zarejestruj"
+            }
+        }
+    }
+}

@@ -67,7 +67,6 @@ const CollectionElementSingle = (): JSX.Element => {
         try {
             setIsLoading(true);
             const response = await axios.get(`http://localhost:8000/api/collections/elements/${elementId}`);
-            console.log(response.data);
             setData(response.data);
         } catch (error) {
             message.error(t('common.messages.error'));

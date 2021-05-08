@@ -32,56 +32,6 @@ const styles = (): SerializedStyles => css`
         }
     }
 
-    .ant-form-item {
-        &.upload {
-            .ant-form-item-control {
-                max-height: 138px;
-            }
-        }
-    }
-
-    .ant-upload {
-        &.ant-upload-select {
-            &.ant-upload-select-picture-card {
-                width: 100%;
-                height: 120px;
-            }
-        }
-    }
-
-    .ant-upload-picture-card-wrapper {
-        max-height: 138px;
-    }
-
-    .ant-upload-list-picture-card-container {
-        width: 100%;
-        height: 130px;
-    }
-
-    .ant-upload-list-picture-card {
-        .ant-upload-list-item {
-            padding: 0;
-        }
-    }
-
-    .ant-upload-list-picture-card .ant-upload-list-item-thumbnail,
-    .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
-        object-fit: cover;
-    }
-    
-
-    .upload-button-text {
-        font-size: 12px;
-
-        .heading {
-            margin-top: 6px;
-        }
-
-        .subheading {
-            color: rgba(0, 0, 0, 0.65);
-        }
-    }
-
     .filtering {
         @media (max-width: 991px) {
             display: none;

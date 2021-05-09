@@ -53,6 +53,7 @@ Route::delete('collections/elements/{id}', 'App\Http\Controllers\CollectionEleme
 Route::post('register', 'App\Http\Controllers\UserController@register');
 Route::post('login', 'App\Http\Controllers\UserController@authenticate');
 Route::get('open', 'App\Http\Controllers\DataController@open');
+Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', 'App\Http\Controllers\UserController@getAuthenticatedUser');

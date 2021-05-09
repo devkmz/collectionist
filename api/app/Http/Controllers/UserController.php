@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CollectionType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use DB;
 
 class UserController extends Controller
 {
+    public function index() {
+        return User::all();
+    }
+
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -45,6 +51,14 @@ class UserController extends Controller
         $token = JWTAuth::fromUser($user);
 
         return response()->json(compact('user','token'),201);
+    }
+
+    public function delete (Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        DB::delete('DELETE FROM users WHERE id = ?', [$id]);
+        return response()->noContent();
     }
 
     public function getAuthenticatedUser()

@@ -1,6 +1,6 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ import { useUser } from '../../UserContext';
 import CardCentered from '../../components/CardCentered';
 
 const style = (): SerializedStyles => css`
-    height: 100%;
+    height: 100vh;
     width: 100%;
     position: relative;
     display: flex;
@@ -24,7 +24,7 @@ const style = (): SerializedStyles => css`
     }
 
     .ant-form {
-        margin-top: 45px;
+        margin-top: 35px;
 
         .ant-form-item {
             margin-bottom: 28px;
@@ -48,10 +48,33 @@ const RegisterForm = (): JSX.Element => {
     const [form] = Form.useForm();
     const { t } = useTranslation();
     const { registerUser } = useUser();
+    const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
 
-    const register = (values: any) => {
-        registerUser(values.email, values.password, values.confirmPassword, () => history.push('/login'));
+    const register = async (values: any) => {
+        try {
+            setIsLoading(true);
+            await registerUser(values.email, values.password, values.confirmPassword);
+            history.push('/login');
+        } catch (error) {
+            if (error.response) {
+                const errors = JSON.parse(error.response.data);
+                
+                form.setFields([
+                    {
+                        name: 'email',
+                        errors: errors.email
+                    },
+                    {
+                        name: 'password',
+                        errors: errors.password
+                    }
+                ]);
+            } else {
+                message.error(t('common.messages.error'));
+            }
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -119,7 +142,7 @@ const RegisterForm = (): JSX.Element => {
                         <Input.Password placeholder={t('login.common.form.fields.confirm-password.placeholder')} />
                     </Form.Item>
                     <Form.Item>
-                        <Button className="submit" type="primary" htmlType="submit">{ t('login.register-form.form.buttons.register') }</Button>
+                        <Button className="submit" loading={isLoading} type="primary" htmlType="submit">{ t('login.register-form.form.buttons.register') }</Button>
                     </Form.Item>
                 </Form>
             </CardCentered>

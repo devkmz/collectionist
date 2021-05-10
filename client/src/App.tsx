@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import React, { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { useUser } from './UserContext';
 import ForgotPassword from './views/Login/ForgotPassword';
@@ -13,7 +13,7 @@ message.config({
 });
 
 const App = (): JSX.Element => {
-  const { user: currentUser, loadUser } = useUser();
+  const { user, loadUser } = useUser();
 
   useEffect(() => {
     loadUser();
@@ -24,30 +24,30 @@ const App = (): JSX.Element => {
     <Switch>
       <Route
           path="/collections"
-          render={() => <MainView user={currentUser} type={"collections"} />}
+          render={() => <MainView user={user} type={"collections"} />}
           exact
       />
       <Route
           path="/collections/:id"
-          render={() => <MainView user={currentUser} type={"collections-single"} />}
+          render={() => <MainView user={user} type={"collections-single"} />}
           exact
       />
       <Route
           path="/collections/:id/elements/:elementId"
-          render={() => <MainView user={currentUser} type={"collection-element-single"} />}
+          render={() => <MainView user={user} type={"collection-element-single"} />}
           exact
       />
       {
-        currentUser?.role === 'ADMIN' && (
+        user?.role === 'ADMIN' && (
           <Route
               path="/collection-types"
-              render={() => <MainView user={currentUser} type={"collection-types"} />}
+              render={() => <MainView user={user} type={"collection-types"} />}
               exact
           />
         )
       }
       {
-        !currentUser && (
+        !user?.id && (
           <Route
             path="/register"
             render={() => <RegisterForm />}
@@ -56,7 +56,7 @@ const App = (): JSX.Element => {
         )
       }
       {
-        !currentUser && (
+        !user?.id && (
           <Route
             path="/login"
             render={() => <LoginForm />}
@@ -65,7 +65,7 @@ const App = (): JSX.Element => {
         )
       }
       {
-        !currentUser && (
+        !user?.id && (
           <Route
             path="/forgot-password"
             render={() => <ForgotPassword />}
@@ -73,11 +73,7 @@ const App = (): JSX.Element => {
           />
         )
       }
-      <Route
-          path="/"
-          render={() => <MainView user={currentUser} type={"collections"} />}
-          exact
-      />
+      <Route render={() => <Redirect to="/collections" />} />
     </Switch>
   );
 }

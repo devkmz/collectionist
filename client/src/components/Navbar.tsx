@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { useUser } from '../UserContext';
-import { User } from '../types/user';
 
 const styles = (): SerializedStyles => css`
     padding: 0;
@@ -33,13 +32,9 @@ const styles = (): SerializedStyles => css`
 
 const { Header } = Layout;
 
-interface Props {
-    user?: User;
-}
-
-const Navbar = ({ user }: Props): JSX.Element => {
+const Navbar = (): JSX.Element => {
     const { t } = useTranslation();
-    const { clearUser } = useUser();
+    const { user, clearUser } = useUser();
     
     return (
         <Header className="header" css={styles}>

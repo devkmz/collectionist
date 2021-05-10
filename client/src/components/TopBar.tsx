@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { useUser } from '../UserContext';
-import { User } from '../types/user';
 
 const styles = (): SerializedStyles => css`
     height: 40px;
@@ -14,7 +13,7 @@ const styles = (): SerializedStyles => css`
     color: #fff;
 
     .container {
-        height: 100%;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -23,6 +22,7 @@ const styles = (): SerializedStyles => css`
     .ant-avatar {
         background: #1890ff;
         margin-right: 8px;
+        text-transform: uppercase;
     }
 
     .user-data {
@@ -35,13 +35,9 @@ const styles = (): SerializedStyles => css`
     }
 `;
 
-interface Props {
-    user?: User;
-}
-
-const TopBar = ({ user }: Props): JSX.Element => {
+const TopBar = (): JSX.Element => {
     const { t } = useTranslation();
-    const { clearUser } = useUser();
+    const { user, clearUser } = useUser();
 
     return (
         <div css={styles}>
@@ -95,7 +91,7 @@ const TopBar = ({ user }: Props): JSX.Element => {
                                     )
                                 }
                             </Menu>
-                        } trigger={['click']}>
+                        } trigger={['hover']}>
                             <span className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                 <DownOutlined />
                             </span>

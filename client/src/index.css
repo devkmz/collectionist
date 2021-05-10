@@ -1,5 +1,5 @@
 html, body, #root {
-  height: 100%;
+  min-height: 100vh;
 }
 
 body {
@@ -9,6 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f0f2f5;
 }
 
 code {
@@ -21,7 +22,7 @@ code {
 }
 
 @media (max-width: 767px) {
-    .ant-message {
-      top: 74px !important;
-    }
+  .ant-message {
+    top: 74px !important;
+  }
 }

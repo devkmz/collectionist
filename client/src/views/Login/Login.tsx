@@ -8,7 +8,7 @@ import { useUser } from '../../UserContext';
 import CardCentered from '../../components/CardCentered';
 
 const style = (): SerializedStyles => css`
-    height: 100%;
+    height: 100vh;
     width: 100%;
     position: relative;
     display: flex;
@@ -24,7 +24,7 @@ const style = (): SerializedStyles => css`
     }
 
     .ant-form {
-        margin-top: 45px;
+        margin-top: 35px;
 
         .ant-form-item {
             margin-bottom: 28px;
@@ -54,11 +54,10 @@ const LoginForm = (): JSX.Element => {
     const login = async (values: any) => {
         try {
             setIsLoading(true);
-            loginUser(values.email, values.password, () => history.push('/'));
+            await loginUser(values.email, values.password);
+            history.push('/');
         } catch (error) {
             console.log(error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -114,7 +113,7 @@ const LoginForm = (): JSX.Element => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button className="submit" type="primary" htmlType="submit">{ t('login.login-form.form.buttons.login') }</Button>
+                        <Button className="submit" loading={isLoading} type="primary" htmlType="submit">{ t('login.login-form.form.buttons.login') }</Button>
                     </Form.Item>
                 </Form>
             </CardCentered>

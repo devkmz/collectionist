@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import CollectionList from './Collections/List';
 import CollectionSingle from './Collections/Single';
@@ -10,6 +10,7 @@ import MobileNavbar from '../components/MobileNavbar';
 import Navbar from '../components/Navbar';
 import TopBar from '../components/TopBar';
 import { User } from '../types/user';
+import { useUser } from '../UserContext';
 
 const styles = (): SerializedStyles => css`
     height: 100%;
@@ -122,7 +123,14 @@ interface Props {
     type: "collections" | "collection-types" | "collections-single" | "collection-element-single"; 
 }
 
-const MainView = ({ user, type }: Props): JSX.Element => {
+const MainView = ({ type }: Props): JSX.Element => {
+    const { user, loadUser } = useUser();
+
+    useEffect(() => {
+        loadUser();
+        // eslint-disable-next-line
+    }, []);
+
     const renderSwitch = (type: string): JSX.Element => {
         switch(type) {
             case "collections":
@@ -140,8 +148,8 @@ const MainView = ({ user, type }: Props): JSX.Element => {
 
     return (
         <Layout css={styles}>
-            <TopBar user={user} />
-            <Navbar user={user} />
+            <TopBar />
+            <Navbar />
             <MobileNavbar user={user} />
             <Content>
                 <div className="container">

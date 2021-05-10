@@ -8,7 +8,7 @@ import CardCentered from '../../components/CardCentered';
 const { Link: LinkAnt } = Typography;
 
 const style = (): SerializedStyles => css`
-    height: 100%;
+    height: 100vh;
     width: 100%;
     position: relative;
     display: flex;
@@ -18,7 +18,7 @@ const style = (): SerializedStyles => css`
     background: #f0f2f5;
 
     .info {
-        margin-top: 45px;
+        margin-top: 35px;
         text-align: center;
     }
 

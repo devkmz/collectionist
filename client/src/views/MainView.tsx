@@ -6,6 +6,7 @@ import CollectionList from './Collections/List';
 import CollectionSingle from './Collections/Single';
 import CollectionElementSingle from './CollectionElements/Single';
 import CollectionTypeList from './CollectionTypes/List';
+import UserList from './Users/List';
 import MobileNavbar from '../components/MobileNavbar';
 import Navbar from '../components/Navbar';
 import TopBar from '../components/TopBar';
@@ -120,7 +121,7 @@ const { Content } = Layout;
 
 interface Props {
     user?: User;
-    type: "collections" | "collection-types" | "collections-single" | "collection-element-single"; 
+    type: string;
 }
 
 const MainView = ({ type }: Props): JSX.Element => {
@@ -132,18 +133,15 @@ const MainView = ({ type }: Props): JSX.Element => {
     }, []);
 
     const renderSwitch = (type: string): JSX.Element => {
-        switch(type) {
-            case "collections":
-                return <CollectionList user={user} />;
-            case "collections-single":
-                return <CollectionSingle user={user} />;
-            case "collection-element-single":
-                return <CollectionElementSingle />;
-            case "collection-types":
-                return <CollectionTypeList />;
-            default:
-                return <CollectionList user={user} />;
-        }
+        const types: { [key: string]: JSX.Element } = {
+            collections: <CollectionList user={user} />,
+            collectionsSingle: <CollectionSingle user={user} />,
+            collectionElementSingle: <CollectionElementSingle />,
+            collectionTypes: <CollectionTypeList />,
+            users: <UserList />
+        };
+
+        return types[type] || types['collections'];
     };
 
     return (

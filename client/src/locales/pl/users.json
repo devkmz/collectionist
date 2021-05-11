@@ -1,6 +1,22 @@
 {
     "list": {
-        "title": "Użytkownicy"
+        "title": "Użytkownicy",
+        "id": "ID",
+        "email": "Adres e-mail",
+        "first-name": "Imię",
+        "last-name": "Nazwisko",
+        "created-at": "Data utworzenia",
+        "role": {
+            "title": "Rola",
+            "user": "Użytkownik",
+            "admin": "Administrator"
+        },
+        "actions": "Czynności",
+        "delete-confirm": "Czy na pewno chcesz usunąć użytkownika o e-mailu",
+        "delete-user": "Usuń użytkownika",
+        "delete-success": "Pomyślnie usunięto użytkownika",
+        "edit-user": "Edytuj użytkownika",
+        "edit-success": "Pomyślnie zapisano użytkownika"
     },
     "profile": {
         "edit": "Edytuj profil",

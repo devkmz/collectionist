@@ -14,7 +14,7 @@ use DB;
 class UserController extends Controller
 {
     public function index() {
-        return User::all();
+        return User::all()->makeHidden(['email_verified_at', 'updated_at']);
     }
 
     public function authenticate(Request $request)

@@ -29,20 +29,29 @@ const App = (): JSX.Element => {
       />
       <Route
           path="/collections/:id"
-          render={() => <MainView user={user} type={"collections-single"} />}
+          render={() => <MainView user={user} type={"collectionsSingle"} />}
           exact
       />
       <Route
           path="/collections/:id/elements/:elementId"
-          render={() => <MainView user={user} type={"collection-element-single"} />}
+          render={() => <MainView user={user} type={"collectionElementSingle"} />}
           exact
       />
       {
         user?.role === 'ADMIN' && (
           <Route
               path="/collection-types"
-              render={() => <MainView user={user} type={"collection-types"} />}
+              render={() => <MainView user={user} type={"collectionTypes"} />}
               exact
+          />
+        )
+      }
+      {
+        user?.role === 'ADMIN' && (
+          <Route
+            path="/users"
+            render={() => <MainView user={user} type={"users"} />}
+            exact
           />
         )
       }

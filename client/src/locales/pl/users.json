@@ -12,7 +12,7 @@
             "admin": "Administrator"
         },
         "actions": "Czynności",
-        "delete-confirm": "Czy na pewno chcesz usunąć użytkownika o e-mailu",
+        "delete-confirm": "Czy na pewno chcesz usunąć użytkownika o\u00a0e\u2011mailu",
         "delete-user": "Usuń użytkownika",
         "delete-success": "Pomyślnie usunięto użytkownika",
         "edit-user": "Edytuj użytkownika",

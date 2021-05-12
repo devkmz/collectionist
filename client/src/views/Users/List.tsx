@@ -1,4 +1,5 @@
-import { Breadcrumb, message, Space, Spin, Table, Typography } from 'antd';
+import { Breadcrumb, message, Modal, Space, Spin, Table, Typography } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { css, SerializedStyles } from '@emotion/core';
 import moment from 'moment';
@@ -7,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { User } from '../../types/user';
 
+const { confirm } = Modal;
 const { Link } = Typography;
 
 const styles = (): SerializedStyles => css`
@@ -46,6 +48,27 @@ const UserList = (): JSX.Element => {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const deleteUser = (id: number, email: string) => {
+        confirm({
+            title: t('users.list.delete-user'),
+            icon: <ExclamationCircleOutlined />,
+            content:
+                <>
+                    <div>{ t('users.list.delete-confirm') }</div>
+                    <div>{ email }</div>
+                </>,
+            onOk: async () => {
+                try {
+                    await axios.delete(`http://localhost:8000/api/users/${id}`);
+                    message.success(t('users.list.delete-success'));
+                    getUsers();
+                } catch (error) {
+                    message.error(t('common.messages.error'));
+                }
+            }
+        });
     };
 
     useEffect(() => {
@@ -117,7 +140,7 @@ const UserList = (): JSX.Element => {
                     <Link>
                         { t('common.actions.edit') }
                     </Link>
-                    <Link>
+                    <Link onClick={() => deleteUser(row.id, row.email)}>
                         { t('common.actions.delete') }
                     </Link>
                 </Space>

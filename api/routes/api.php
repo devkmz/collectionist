@@ -55,7 +55,6 @@ Route::post('login', 'App\Http\Controllers\UserController@authenticate');
 Route::get('open', 'App\Http\Controllers\DataController@open');
 Route::get('users', 'App\Http\Controllers\UserController@index');
 Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
-Route::get('users', 'App\Http\Controllers\UserController@index');
 
 
 Route::group(['middleware' => ['jwt.verify']], function() {

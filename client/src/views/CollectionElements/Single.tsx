@@ -7,14 +7,62 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
+import CardImage from '../../components/CardImage';
 import Map from '../../components/Map';
 import { Collection } from '../../types/collection';
 import { CollectionElement } from '../../types/collectionElement';
+import { useWindowWidth } from '../../utils/hooks';
 
 const styles = (): SerializedStyles => css`
     .image {
-        img {
-            max-width: 100%;
+        > div {
+            @media (max-width: 767px) {
+                padding-top: 45%;
+            }
+        }
+
+        .no-image {
+            background: rgba(255, 255, 255, 0.7);
+        }
+    }
+
+    .actions {
+        .ant-card {
+            @media (min-width: 992px) and (max-width: 1199px) {
+                display: flex;
+                justify-content: space-between;
+
+                .ant-card-head {
+                    min-height: unset;
+                    padding-top: 16px;
+                    padding-bottom: 16px;
+
+                    .ant-card-head-title {
+                        padding: 0;
+                        height: 40px;
+                        line-height: 40px;
+                    }
+                }
+
+                .ant-card-body {
+                    padding-top: 16px;
+                    padding-bottom: 16px;
+                }
+            }
+        }
+
+        .ant-menu {
+            border-right: none;
+            
+            @media (min-width: 768px) and (max-width: 1199px) {
+                .ant-menu-item {
+                    display: inline-block;
+                    width: unset;
+                    margin-bottom: 0;
+                    margin-top: 0;
+                    margin-right: 24px;
+                }
+            }
         }
     }
 
@@ -32,7 +80,7 @@ const styles = (): SerializedStyles => css`
     }
 
     .leaflet-container {
-        min-width: 300px;
+        min-width: 250px;
         width: 100%;
         height: 300px;
     }
@@ -47,6 +95,7 @@ const CollectionElementSingle = (): JSX.Element => {
     const [collection, setCollection] = useState<Collection | undefined>(undefined);
     const [data, setData] = useState<CollectionElement | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(false);
+    const windowWidth = useWindowWidth();
     const { t } = useTranslation();
 
     const { id, elementId }: Params = useParams();
@@ -98,14 +147,16 @@ const CollectionElementSingle = (): JSX.Element => {
                 ) : (
                     <>
                         <Row gutter={[24, 24]}>
-                            <Col className="image" xs={9}>
-                                <img src={data?.elementImage?.url} alt={data?.elementImage?.name} />
+                            <Col className="image" xs={24} sm={24} md={10} lg={10} xl={9}>
+                                <CardImage imageUrl={data?.elementImage?.url} />
                             </Col>
-                            <Col className="data" xs={9}>
-                                <h2>{ data?.elementName }</h2>
-                                <p>{ data?.elementDescription }</p>
+                            <Col className="data" xs={24} sm={24} md={14} lg={14} xl={9}>
+                                <div>
+                                    <h2>{ data?.elementName }</h2>
+                                    <p>{ data?.elementDescription }</p>
+                                </div>
                             </Col>
-                            <Col className="actions" xs={6}>
+                            <Col className="actions" xs={24} xl={6}>
                                 <Card title="Czynności">
                                     <Menu
                                         mode="inline"
@@ -135,7 +186,8 @@ const CollectionElementSingle = (): JSX.Element => {
                                 <h2>{ t('collectionElements.single.details') }</h2>
                                 <Descriptions
                                     bordered
-                                    column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+                                    column={1}
+                                    layout={windowWidth && windowWidth < 768 ? "vertical" : "horizontal"}
                                 >
                                     {
                                         data?.elements_attributes?.map(attr => (

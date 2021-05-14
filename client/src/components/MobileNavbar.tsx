@@ -11,10 +11,10 @@ const styles = (): SerializedStyles => css`
     display: none;
     padding: 0;
     position: fixed;
-    top: 0;
+    top: 40px;
     left: 0;
     right: 0;
-    z-index: 999999;
+    z-index: 1001;
 
     @media (max-width: 767px) {
         display: block;

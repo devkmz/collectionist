@@ -20,7 +20,7 @@ const styles = (): SerializedStyles => css`
         padding: 44px 0;
 
         @media (max-width: 767px) {
-            padding-top: 96px;
+            padding-top: 136px;
         }
     }
 

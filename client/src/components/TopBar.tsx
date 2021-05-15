@@ -12,6 +12,14 @@ const styles = (): SerializedStyles => css`
     background: #333;
     color: #fff;
 
+    @media (max-width: 767px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1001;
+    }
+
     .container {
         height: 40px;
         display: flex;
@@ -91,7 +99,7 @@ const TopBar = (): JSX.Element => {
                                     )
                                 }
                             </Menu>
-                        } trigger={['hover']}>
+                        } trigger={['click']}>
                             <span className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                 <DownOutlined />
                             </span>

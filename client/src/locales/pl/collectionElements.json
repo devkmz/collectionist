@@ -7,6 +7,7 @@
                 "xlsx": "Pobierz raport (XLSX)"
             }
         },
-        "details": "Szczegółowe informacje"
+        "details": "Szczegółowe informacje",
+        "location-not-found": "nie odnaleziono lokalizacji na mapie"
     }
 }

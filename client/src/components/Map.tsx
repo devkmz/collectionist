@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 interface Props {
@@ -10,6 +11,7 @@ const Map = ({ location }: Props): JSX.Element => {
     const [lat, setLat] = useState<number>();
     const [lon, setLon] = useState<number>();
     const [popupText, setPopupText] = useState<string>();
+    const { t } = useTranslation();
 
     const getData = async () => {
         try {
@@ -30,7 +32,7 @@ const Map = ({ location }: Props): JSX.Element => {
     return (
         <>
             {
-                !!lat && !!lon && (
+                !!lat && !!lon ? (
                     <MapContainer center={[lat, lon]} zoom={13} scrollWheelZoom={false}>
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -42,6 +44,8 @@ const Map = ({ location }: Props): JSX.Element => {
                             </Popup>
                         </Marker>
                     </MapContainer>
+                ) : (
+                    <div>{ location }<span style={{ fontStyle: 'italic' }}> ({ t('collectionElements.single.location-not-found') })</span></div>
                 )
             }
         </>

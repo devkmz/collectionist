@@ -55,7 +55,9 @@ Route::post('login', 'App\Http\Controllers\UserController@authenticate');
 Route::get('open', 'App\Http\Controllers\DataController@open');
 Route::get('users', 'App\Http\Controllers\UserController@index');
 Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
-
+Route::put('users/{id}', 'App\Http\Controllers\UserController@adminUpdate');
+Route::put('user', 'App\Http\Controllers\UserController@update');
+Route::get('userid', 'App\Http\Controllers\UserController@getUserID');
 
 Route::get('collections/{id}/pdf', 'App\Http\Controllers\CollectionController@createPdf');
 Route::get('collections/{id}/xlsx', 'App\Http\Controllers\CollectionController@createXlsx');

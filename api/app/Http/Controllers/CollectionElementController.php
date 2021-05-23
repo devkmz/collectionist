@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CollectionElement;
 use App\Models\ElementsAttributes;
+use App\Exports\ElementExport;
 use DB;
+use PDF;
+use Excel;
 
 class CollectionElementController extends Controller
 {
@@ -75,4 +78,25 @@ class CollectionElementController extends Controller
         }
         return $request->all();
     }
+
+    public function createPdf($id) {
+        $element = CollectionElement::findOrFail($id);
+        $attributes = $element->elementsAttributes;
+
+        $data['info'] = $element;
+        $data['attributes'] = $attributes;
+
+        foreach($attributes as $attribute) {
+            if ($attribute->attributeType == "DATE") {
+                $attribute->value = date_format(date_create($attribute->value),"d.m.Y");
+            }
+        }
+        view()->share('element',$data);
+        $pdf = PDF::loadView('element_report', $data);
+        return $pdf->download('element_report.pdf');
+      }
+
+      public function createXlsx($id) {
+        return Excel::download(new ElementExport($id), 'element_report_for_excel.xlsx');
+      }
 }

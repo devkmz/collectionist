@@ -25,7 +25,11 @@
             <td>{{ $i++ }}</td>
             <td>{{ $data->elementName }}</td>
             <td>{{ $data->elementDescription }}</td>
-            <td><img src="<?php echo './storage/'.$data->elementImage['name'];?>" width="250px"/></td>
+            @if($data->elementImage)
+                <td><img src="<?php echo './storage/'.$data->elementImage['name'];?>" width="250px"/></td>
+            @else
+                <td></td>
+            @endif
             @foreach($data->elementsAttributes as $attribute)
                 <td>{{ $attribute['value']}} </td>
             @endforeach

@@ -23,7 +23,11 @@
             <td>{{ $element['info']->id }}</td>
             <td>{{ $element['info']->elementName }}</td>
             <td>{{ $element['info']->elementDescription }}</td>
-            <td><img src="<?php echo './storage/'.$element['info']->elementImage['name'];?>" width="250px"/></td>
+            @if($element['info']->elementImage)
+                <td><img src="<?php echo './storage/'.$element['info']->elementImage['name'];?>" width="250px"/></td>
+            @else
+                <td></td>
+            @endif
             @foreach($element['attributes'] ?? '' as $data)
                 <td>{{ $data->value }}</td>
             @endforeach

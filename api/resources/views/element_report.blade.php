@@ -53,7 +53,9 @@
     <div class="element-info">
         <h1>{{ $element['info']->elementName }}</h1>
         <p>{{ $element['info']->elementDescription }}</p>
-        <p><img src="<?php echo './storage/'.$element['info']->elementImage['name'];?>" width="80%"/></p>
+        @if($element['info']->elementImage)
+            <p><img src="<?php echo './storage/'.$element['info']->elementImage['name'];?>" width="80%"/></p>
+        @endif
     </div>
     <table>
     @foreach($element['attributes'] ?? '' as $data)

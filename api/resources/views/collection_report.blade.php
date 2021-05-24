@@ -53,7 +53,9 @@
         <p>Elementy pochodzą z kolekcji</p>
         <h3>{{ $collection['info']->name }}</h3>
         <p>{{ $collection['info']->description }}</p>
-        <p><img src="<?php echo './storage/'.$collection['info']->image['name'];?>" width="300px"/></p>
+        @if($collection['info']->image)
+            <p><img src="<?php echo './storage/'.$collection['info']->image['name'];?>" width="300px"/></p>
+        @endif
     </div>
 
     @foreach($collection['elements'] ?? '' as $data)

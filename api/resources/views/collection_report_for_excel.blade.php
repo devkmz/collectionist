@@ -11,13 +11,17 @@
 <body>
     <table>
         <tr>
-            <th>L.p.</th>
-            <th>Nazwa elementu</th>
-            <th>Opis elementu</th>
-            <th>Zdjęcie elementu</th>
-            @foreach($collection['elements'][0]->elementsAttributes as $attribute)
-                <th>{{ $attribute['attributeName']}} </th>
-            @endforeach
+            @if(count($collection['elements']))
+                <th>L.p.</th>
+                <th>Nazwa elementu</th>
+                <th>Opis elementu</th>
+                <th>Zdjęcie elementu</th>
+                    @foreach($collection['elements'][0]->elementsAttributes as $attribute)
+                        <th>{{ $attribute['attributeName']}} </th>
+                    @endforeach
+            @else 
+                <td>Brak elementów w kolekcji</td>
+            @endif
         </tr>
         {{ $i = 1 }}
         @foreach($collection['elements'] ?? '' as $data)

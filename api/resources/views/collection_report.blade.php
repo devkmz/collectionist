@@ -53,13 +53,14 @@
         <p>Elementy pochodzą z kolekcji</p>
         <h3>{{ $collection['info']->name }}</h3>
         <p>{{ $collection['info']->description }}</p>
+        <p><img src="<?php echo './storage/'.$collection['info']->image['name'];?>" width="300px"/></p>
     </div>
 
     @foreach($collection['elements'] ?? '' as $data)
         <h1>{{ $data->elementName }}</h1>
         <p>{{ $data->elementDescription }}</p>
         @if($data->elementImage)
-            <p><img src="<?php echo './storage/'.$data->elementImage['name'];?>" width="250" height="150"/></p>
+            <p><img src="<?php echo './storage/'.$data->elementImage['name'];?>" width="300px"/></p>
         @endif
         <h3>Szczegółowe informacje</h3>
         <table>

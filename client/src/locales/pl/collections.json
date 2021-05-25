@@ -3,7 +3,10 @@
         "title": "Kolekcje",
         "sections": {
             "aside": {
-                "filtering": "Filtrowanie"
+                "filtering": {
+                    "heading": "Filtrowanie",
+                    "search-placeholder": "Szukaj..."
+                }
             },
             "main": {}
         },
@@ -47,7 +50,19 @@
         "title": "Kolekcja",
         "sections": {
             "aside": {
-                "filtering": "Filtrowanie i eksport"
+                "report": {
+                    "heading": "Raport z kolekcji",
+                    "actions-menu": {
+                        "download-report": {
+                            "pdf": "Pobierz raport (PDF)",
+                            "xlsx": "Pobierz raport (XLSX)"
+                        }
+                    }
+                },
+                "filtering": {
+                    "heading": "Filtrowanie",
+                    "search-placeholder": "Szukaj..."
+                }
             }
         },
         "delete-collection-element": "Usuń element kolekcji",

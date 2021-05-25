@@ -1,8 +1,8 @@
 import { message } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { useUser } from './UserContext';
+import { useUserState } from './context';
 import ForgotPassword from './views/Login/ForgotPassword';
 import LoginForm from './views/Login/Login';
 import RegisterForm from './views/Login/Register';
@@ -13,12 +13,7 @@ message.config({
 });
 
 const App = (): JSX.Element => {
-  const { user, loadUser } = useUser();
-
-  useEffect(() => {
-    loadUser();
-    // eslint-disable-next-line
-  }, []);
+  const { user } = useUserState();
 
   return (
     <Switch>

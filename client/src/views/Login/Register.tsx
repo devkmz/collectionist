@@ -1,11 +1,11 @@
 import { Button, Form, Input, message } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useUser } from '../../UserContext';
 import CardCentered from '../../components/CardCentered';
+import { register, useUserDispatch, useUserState } from '../../context';
 
 const style = (): SerializedStyles => css`
     height: 100vh;
@@ -47,16 +47,29 @@ const style = (): SerializedStyles => css`
 const RegisterForm = (): JSX.Element => {
     const [form] = Form.useForm();
     const { t } = useTranslation();
-    const { registerUser } = useUser();
-    const [isLoading, setIsLoading] = useState(false);
+    const { loading, error } = useUserState();
+    const dispatch = useUserDispatch();
     const history = useHistory();
 
-    const register = async (values: any) => {
-        try {
-            setIsLoading(true);
-            await registerUser(values.email, values.password, values.confirmPassword);
-            history.push('/login');
-        } catch (error) {
+    const handleRegister = () => {
+        form.validateFields()
+            .then(async (values) => {
+                try {
+                    const result = await register(dispatch, { email: values.email, password: values.password, confirmPassword: values.confirmPassword });
+
+                    if (result) {
+                        message.success(t('login.common.messages.register-success'));
+                        history.push("/login");
+                    }
+                } catch (errors) {
+                    message.error(t('common.messages.error'));
+                }
+            })
+            .catch(errors => {});
+    };
+
+    useEffect(() => {
+        if (!!error) {
             if (error.response) {
                 const errors = JSON.parse(error.response.data);
                 
@@ -73,9 +86,8 @@ const RegisterForm = (): JSX.Element => {
             } else {
                 message.error(t('common.messages.error'));
             }
-            setIsLoading(false);
         }
-    };
+    }, [error, form, t]);
 
     return (
         <div css={style}>
@@ -83,7 +95,7 @@ const RegisterForm = (): JSX.Element => {
                 header={t('common.app-name')}
                 subheader={t('login.register-form.header')}
                 footer={(
-                    <Button className="link" type="link">
+                    <Button className="link" type="link" onClick={() => form.resetFields()}>
                         <Link to="/login">{ t('login.common.footer.link.return-to-login') }</Link>
                     </Button>
                 )}
@@ -94,7 +106,7 @@ const RegisterForm = (): JSX.Element => {
                     layout="vertical"
                     onValuesChange={() => {}}
                     requiredMark={false}
-                    onFinish={(values) => register(values)}
+                    onFinish={handleRegister}
                 >
                     <Form.Item
                         name="email"
@@ -132,17 +144,27 @@ const RegisterForm = (): JSX.Element => {
                     </Form.Item>
                     <Form.Item
                         name="confirmPassword"
+                        dependencies={['password']}
                         rules={[
                             {
                                 required: true,
                                 message: t('login.common.form.fields.confirm-password.required')
-                            }
+                            },
+                            ({ getFieldValue }) => ({
+                              validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                  return Promise.resolve();
+                                }
+
+                                return Promise.reject(new Error(t('login.common.form.fields.confirm-password.password-mismatch')));
+                              },
+                            })
                         ]}
                     >
                         <Input.Password placeholder={t('login.common.form.fields.confirm-password.placeholder')} />
                     </Form.Item>
                     <Form.Item>
-                        <Button className="submit" loading={isLoading} type="primary" htmlType="submit">{ t('login.register-form.form.buttons.register') }</Button>
+                        <Button className="submit" loading={loading} type="primary" htmlType="submit">{ t('login.register-form.form.buttons.register') }</Button>
                     </Form.Item>
                 </Form>
             </CardCentered>

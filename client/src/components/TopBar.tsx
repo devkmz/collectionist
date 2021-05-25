@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { useUser } from '../UserContext';
+import { logout, useUserDispatch, useUserState } from '../context';
 
 const styles = (): SerializedStyles => css`
     height: 40px;
@@ -45,7 +45,8 @@ const styles = (): SerializedStyles => css`
 
 const TopBar = (): JSX.Element => {
     const { t } = useTranslation();
-    const { user, clearUser } = useUser();
+    const { user } = useUserState();
+    const dispatch = useUserDispatch();
 
     return (
         <div css={styles}>
@@ -92,7 +93,7 @@ const TopBar = (): JSX.Element => {
                                     user?.id && (
                                         <Menu.Item
                                             key="logout"
-                                            onClick={() => clearUser() }
+                                            onClick={() => logout(dispatch) }
                                         >
                                             <span>{ t('login.common.link.log-out') }</span>
                                         </Menu.Item>

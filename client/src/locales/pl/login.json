@@ -26,6 +26,10 @@
         "link": {
             "log-in": "Zaloguj się",
             "log-out": "Wyloguj"
+        },
+        "messages": {
+            "invalid-credentials": "Niepoprawne dane logowania",
+            "register-success": "Rejestracja zakończona powodzeniem"
         }
     },
     "login-form": {

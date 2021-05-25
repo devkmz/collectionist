@@ -1,11 +1,11 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { useUser } from '../../UserContext';
 import CardCentered from '../../components/CardCentered';
+import { login, useUserDispatch, useUserState } from '../../context';
 
 const style = (): SerializedStyles => css`
     height: 100vh;
@@ -47,19 +47,30 @@ const style = (): SerializedStyles => css`
 const LoginForm = (): JSX.Element => {
     const [form] = Form.useForm();
     const { t } = useTranslation();
-    const { loginUser } = useUser();
-    const [isLoading, setIsLoading] = useState(false);
-    const history = useHistory();
+    const { loading, error } = useUserState();
+    const dispatch = useUserDispatch();
 
-    const login = async (values: any) => {
-        try {
-            setIsLoading(true);
-            await loginUser(values.email, values.password);
-            history.push('/');
-        } catch (error) {
-            console.log(error);
-        }
+    const handleLogin = () => {
+        form.validateFields()
+            .then(async (values) => {
+                try {
+                    await login(dispatch, { email: values.email, password: values.password });
+                } catch (errors) {
+                    message.error(t('common.messages.error'));
+                }
+            })
+            .catch(errors => {});
     };
+
+    useEffect(() => {
+        if (!!error) {
+            if (error?.response?.data?.error && error?.response?.data?.error === 'invalid_credentials') {
+                message.error(t('login.common.messages.invalid-credentials'));
+            } else {
+                message.error(t('common.messages.error'))
+            }
+        }
+    }, [error, t]);
 
     return (
         <div css={style}>
@@ -83,7 +94,7 @@ const LoginForm = (): JSX.Element => {
                     layout="vertical"
                     onValuesChange={() => {}}
                     requiredMark={false}
-                    onFinish={(values) => login(values)}
+                    onFinish={handleLogin}
                 >
                     <Form.Item
                         name="email"
@@ -113,7 +124,7 @@ const LoginForm = (): JSX.Element => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button className="submit" loading={isLoading} type="primary" htmlType="submit">{ t('login.login-form.form.buttons.login') }</Button>
+                        <Button className="submit" loading={loading} type="primary" htmlType="submit">{ t('login.login-form.form.buttons.login') }</Button>
                     </Form.Item>
                 </Form>
             </CardCentered>

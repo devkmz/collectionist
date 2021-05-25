@@ -168,54 +168,58 @@ const CollectionElementSingle = (): JSX.Element => {
                                             </Link>
                                         </Menu.Item>
                                         <Menu.Item icon={<FilePdfOutlined />}>
-                                            <Link to={`/collections/${id}`}>
+                                            <a download href={`http://localhost:8000/api/collections/elements/${elementId}/pdf`}>
                                                 { t('collectionElements.single.actions-menu.download-report.pdf')}
-                                            </Link>
+                                            </a>
                                         </Menu.Item>
                                         <Menu.Item icon={<FileExcelOutlined />}>
-                                            <Link to={`/collections/${id}`}>
+                                            <a download href={`http://localhost:8000/api/collections/elements/${elementId}/xlsx`}>
                                                 { t('collectionElements.single.actions-menu.download-report.xlsx') }
-                                            </Link>
+                                            </a>
                                         </Menu.Item>
                                     </Menu>
                                 </Card>
                             </Col>
                         </Row>
-                        <Row className="details" gutter={[24, 24]}>
-                            <Col xs={24}>
-                                <h2>{ t('collectionElements.single.details') }</h2>
-                                <Descriptions
-                                    bordered
-                                    column={1}
-                                    layout={windowWidth && windowWidth < 768 ? "vertical" : "horizontal"}
-                                >
-                                    {
-                                        data?.elements_attributes?.map(attr => (
-                                            <Descriptions.Item
-                                                key={`attr-${attr.attribute_id}`}
-                                                label={attr.attributeName}
-                                            >
-                                                {
-                                                    !!attr.attributeType && attr.attributeType === 'DATE' && (
-                                                        <span>{ moment(attr.value).format('DD.MM.YYYY') }</span>
-                                                    )
-                                                }
-                                                {
-                                                    !!attr.attributeType && attr.attributeType === 'LOCATION' && (
-                                                        <Map location={attr.value as string} />
-                                                    )
-                                                }
-                                                {
-                                                    !!attr.attributeType && attr.attributeType !== 'DATE' && attr.attributeType !== 'LOCATION' && (
-                                                        <span>{ attr.value }</span>
-                                                    )
-                                                }
-                                            </Descriptions.Item>
-                                        ))
-                                    }
-                                </Descriptions>
-                            </Col>
-                        </Row>
+                        {
+                            data?.elements_attributes && data?.elements_attributes.length > 0 && (
+                                <Row className="details" gutter={[24, 24]}>
+                                    <Col xs={24}>
+                                        <h2>{ t('collectionElements.single.details') }</h2>
+                                        <Descriptions
+                                            bordered
+                                            column={1}
+                                            layout={windowWidth && windowWidth < 768 ? "vertical" : "horizontal"}
+                                        >
+                                            {
+                                                data?.elements_attributes?.map(attr => (
+                                                    <Descriptions.Item
+                                                        key={`attr-${attr.attribute_id}`}
+                                                        label={attr.attributeName}
+                                                    >
+                                                        {
+                                                            !!attr.attributeType && attr.attributeType === 'DATE' && (
+                                                                <span>{ moment(attr.value).format('DD.MM.YYYY') }</span>
+                                                            )
+                                                        }
+                                                        {
+                                                            !!attr.attributeType && attr.attributeType === 'LOCATION' && (
+                                                                <Map location={attr.value as string} />
+                                                            )
+                                                        }
+                                                        {
+                                                            !!attr.attributeType && attr.attributeType !== 'DATE' && attr.attributeType !== 'LOCATION' && (
+                                                                <span>{ attr.value }</span>
+                                                            )
+                                                        }
+                                                    </Descriptions.Item>
+                                                ))
+                                            }
+                                        </Descriptions>
+                                    </Col>
+                                </Row>
+                            )
+                        }
                     </>
                 )
             }

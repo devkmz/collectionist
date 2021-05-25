@@ -1,5 +1,5 @@
 import { Breadcrumb, Button, Card, Col, Empty, Form, Input, message, Modal, Row, Select, Spin, Tooltip, Upload } from 'antd';
-import { EditOutlined, DeleteOutlined, EyeOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, EyeOutlined, ExclamationCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { css, SerializedStyles } from '@emotion/core';
 import React, { useEffect, useRef, useState } from 'react';
@@ -61,6 +61,7 @@ interface Props {
 
 const CollectionList = ({ user }: Props): JSX.Element => {
     const [data, setData] = useState<Array<Collection>>([]);
+    const [filteredData, setFilteredData] = useState<Array<Collection>>([]);
     const [typesList, setTypesList] = useState<Array<CollectionType>>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -71,6 +72,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
     const [fileList, setFileList] = useState<any>([]);
     const [imageData, setImageData] = useState<any>(undefined);
     const [selectedCollection, setSelectedCollection] = useState<Collection>();
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     const getCollections = async () => {
         try {
@@ -141,6 +143,10 @@ const CollectionList = ({ user }: Props): JSX.Element => {
         // eslint-disable-next-line
     }, []);
 
+    useEffect(() => {
+        setFilteredData(data);
+    }, [data]);
+
     const handleFileUpload = async (options: any) => {
         const { onSuccess, onError, file } = options;
 
@@ -190,12 +196,27 @@ const CollectionList = ({ user }: Props): JSX.Element => {
         setFileList([]);
     };
 
+    const handleSearch = (query: string) => {
+        setSearchQuery(query);
+        setFilteredData([...data].filter(item => handleFilter(query, item)));
+    };
+
+    const handleFilter = (query: string, item: Collection) => {
+        return item.name.toLowerCase().includes(query.toLowerCase()) || item.description.toLowerCase().includes(query.toLowerCase());
+    };
+
     return (
         <div ref={reference} css={styles}>
             <Row gutter={[24, 24]}>
                 <Col className="filtering" xs={24} sm={24} md={7} lg={6} xxl={5}>
-                    <Card title={t('collections.list.sections.aside.filtering')}>
-                        <p>Lorem ipsum</p>
+                    <Card title={t('collections.list.sections.aside.filtering.heading')}>
+                        <Input
+                            placeholder={t('collections.list.sections.aside.filtering.search-placeholder')}
+                            allowClear
+                            onChange={(e) => handleSearch(e.target.value)}
+                            suffix={<SearchOutlined />}
+                            value={searchQuery}
+                        />
                     </Card>
                 </Col>
                 <Col xs={24} sm={24} md={17} lg={18} xxl={19}>
@@ -220,8 +241,14 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                         }
                     </div>
                     <div className="filtering filtering-mobile">
-                        <Card title={t('collections.list.sections.aside.filtering')}>
-                            <p>Lorem ipsum</p>
+                        <Card title={t('collections.list.sections.aside.filtering.heading')}>
+                            <Input
+                                placeholder={t('collections.list.sections.aside.filtering.search-placeholder')}
+                                allowClear
+                                onChange={(e) => handleSearch(e.target.value)}
+                                suffix={<SearchOutlined />}
+                                value={searchQuery}
+                            />
                         </Card>
                     </div>
                     {
@@ -232,10 +259,10 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                         ) : (
                             <>
                                 {
-                                    data.length > 0 ? (
+                                    filteredData.length > 0 ? (
                                         <Row gutter={[24, 24]}>
                                             {
-                                                data.map(item => (
+                                                filteredData.map(item => (
                                                     <Col className="collection-card" xs={12} sm={12} md={8} xl={6} xxl={6} key={`item-${item.id}`}>
                                                         <Link to={`/collections/${item.id}`}>
                                                             <Card

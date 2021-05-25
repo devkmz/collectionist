@@ -1,5 +1,5 @@
-import { Breadcrumb, Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, message, Modal, Row, Spin, Tooltip, Upload } from 'antd';
-import { EditOutlined, DeleteOutlined, EyeOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, Menu, message, Modal, Row, Spin, Tooltip, Upload } from 'antd';
+import { EditOutlined, DeleteOutlined, EyeOutlined, ExclamationCircleOutlined, FileExcelOutlined, FilePdfOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { css, SerializedStyles } from '@emotion/core';
 import moment from 'moment';
@@ -18,18 +18,28 @@ const { Meta } = Card;
 const { TextArea } = Input;
 
 const styles = (): SerializedStyles => css`
-    .filtering {
+    .actions {
         @media (max-width: 991px) {
             display: none;
         }
 
-        &.filtering-mobile {
+        &.actions-mobile {
             display: none;
             margin-bottom: 32px;
 
             @media (max-width: 991px) {
                 display: block;
             }
+        }
+
+        .ant-card {
+            &:not(:last-of-type) {
+                margin-bottom: 24px;
+            }
+        }
+
+        .ant-menu {
+            border-right: none;
         }
     }
 
@@ -63,6 +73,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
     const [collection, setCollection] = useState<Collection | undefined>(undefined);
     const [collectionTypeAttributes, setCollectionTypeAttributes] = useState<Array<Attribute>>([]);
     const [data, setData] = useState<Array<CollectionElement>>([]);
+    const [filteredData, setFilteredData] = useState<Array<CollectionElement>>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const { t } = useTranslation();
@@ -72,6 +83,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
     const [fileList, setFileList] = useState<any>([]);
     const [imageData, setImageData] = useState<any>(undefined);
     const [selectedCollectionElement, setSelectedCollectionElement] = useState<CollectionElement>();
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     const { id }: Params = useParams();
 
@@ -157,6 +169,10 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
         // eslint-disable-next-line
     }, []);
 
+    useEffect(() => {
+        setFilteredData(data);
+    }, [data]);
+
     const handleFileUpload = async (options: any) => {
         const { onSuccess, onError, file } = options;
 
@@ -206,12 +222,44 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
         setFileList([]);
     };
 
+    const handleSearch = (query: string) => {
+        setSearchQuery(query);
+        setFilteredData([...data].filter(item => handleFilter(query, item)));
+    };
+
+    const handleFilter = (query: string, item: CollectionElement) => {
+        return item.elementName.toLowerCase().includes(query.toLowerCase()) || item.elementDescription.toLowerCase().includes(query.toLowerCase());
+    };
+
     return (
         <div ref={reference} css={styles}>
             <Row gutter={[24, 24]}>
-                <Col className="filtering" xs={24} sm={24} md={7} lg={6} xxl={5}>
-                    <Card title={t('collections.single.sections.aside.filtering')}>
-                        <p>Lorem ipsum</p>
+                <Col className="actions" xs={24} sm={24} md={7} lg={6} xxl={5}>
+                    <Card title={t('collections.single.sections.aside.report.heading')}>
+                        <Menu
+                            mode="inline"
+                            inlineIndent={0}
+                        >
+                            <Menu.Item icon={<FilePdfOutlined />}>
+                                <a download href={`http://localhost:8000/api/collections/${id}/pdf`}>
+                                    { t('collections.single.sections.aside.report.actions-menu.download-report.pdf')}
+                                </a>
+                            </Menu.Item>
+                            <Menu.Item icon={<FileExcelOutlined />}>
+                                <a download href={`http://localhost:8000/api/collections/${id}/xlsx`}>
+                                    { t('collections.single.sections.aside.report.actions-menu.download-report.xlsx') }
+                                </a>
+                            </Menu.Item>
+                        </Menu>
+                    </Card>
+                    <Card title={t('collections.single.sections.aside.filtering.heading')}>
+                        <Input
+                            placeholder={t('collections.single.sections.aside.filtering.search-placeholder')}
+                            allowClear
+                            onChange={(e) => handleSearch(e.target.value)}
+                            suffix={<SearchOutlined />}
+                            value={searchQuery}
+                        />
                     </Card>
                 </Col>
                 <Col xs={24} sm={24} md={17} lg={18} xxl={19}>
@@ -237,9 +285,32 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                             )
                         }
                     </div>
-                    <div className="filtering filtering-mobile">
-                        <Card title={t('collections.single.sections.aside.filtering')}>
-                            <p>Lorem ipsum</p>
+                    <div className="actions actions-mobile">
+                        <Card title={t('collections.single.sections.aside.report.heading')}>
+                            <Menu
+                                mode="inline"
+                                inlineIndent={0}
+                            >
+                                <Menu.Item icon={<FilePdfOutlined />}>
+                                    <a download href={`http://localhost:8000/api/collections/${id}/pdf`}>
+                                        { t('collections.single.sections.aside.report.actions-menu.download-report.pdf')}
+                                    </a>
+                                </Menu.Item>
+                                <Menu.Item icon={<FileExcelOutlined />}>
+                                    <a download href={`http://localhost:8000/api/collections/${id}/xlsx`}>
+                                        { t('collections.single.sections.aside.report.actions-menu.download-report.xlsx') }
+                                    </a>
+                                </Menu.Item>
+                            </Menu>
+                        </Card>
+                        <Card title={t('collections.single.sections.aside.filtering.heading')}>
+                            <Input
+                                placeholder={t('collections.single.sections.aside.filtering.search-placeholder')}
+                                allowClear
+                                onChange={(e) => handleSearch(e.target.value)}
+                                suffix={<SearchOutlined />}
+                                value={searchQuery}
+                            />
                         </Card>
                     </div>
                     {
@@ -250,10 +321,10 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                         ) : (
                             <>
                                 {
-                                    data.length > 0 ? (
+                                    filteredData.length > 0 ? (
                                         <Row gutter={[24, 24]}>
                                             {
-                                                data.map(item => (
+                                                filteredData.map(item => (
                                                     <Col className="collection-card" xs={12} sm={12} md={8} xl={6} xxl={6} key={`item-${item.id}`}>
                                                         <Link to={`/collections/${id}/elements/${item.id}`}>
                                                             <Card
@@ -437,95 +508,99 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    <Row gutter={[24, 24]}>
-                        <Col xs={24}>
-                            <div className="attributes-label">{ t('collectionTypes.list.add-form.fields.attributes.label') }</div>
-                            <Form.List name="elements_attributes">
-                                {fields => (
-                                    <Row gutter={[24, 0]}>
-                                        {
-                                            fields.map(({ key, name, fieldKey, ...restField }) => (
-                                                <Col xs={12} key={key} className="attribute">
-                                                    {  
-                                                        !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'TEXT' && (
-                                                            <Form.Item
-                                                                {...restField}
-                                                                name={[name, 'value']}
-                                                                fieldKey={[fieldKey, 'value']}
-                                                                label={collectionTypeAttributes && collectionTypeAttributes[key].attributeName}
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: t('collections.single.add-form.fields.attributes.validation.input')
-                                                                    }
-                                                                ]}
-                                                            >
-                                                                <Input placeholder={t('collections.single.add-form.fields.attributes.placeholder.input')} />
-                                                            </Form.Item>
-                                                        )
-                                                    }
-                                                    {
-                                                        !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'NUMBER' && (
-                                                            <Form.Item
-                                                                {...restField}
-                                                                name={[name, 'value']}
-                                                                fieldKey={[fieldKey, 'value']}
-                                                                label={collectionTypeAttributes && collectionTypeAttributes[key].attributeName}
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: t('collections.single.add-form.fields.attributes.validation.input')
-                                                                    }
-                                                                ]}
-                                                            >
-                                                                <InputNumber placeholder={t('collections.single.add-form.fields.attributes.placeholder.input')} />
-                                                            </Form.Item>
-                                                        )
-                                                    }
-                                                    {
-                                                        !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'DATE' && (
-                                                            <Form.Item
-                                                                {...restField}
-                                                                name={[name, 'value']}
-                                                                fieldKey={[fieldKey, 'value']}
-                                                                label={collectionTypeAttributes && collectionTypeAttributes[key].attributeName}
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: t('collections.single.add-form.fields.attributes.validation.datepicker')
-                                                                    }
-                                                                ]}
-                                                            >
-                                                                <DatePicker placeholder={t('collections.single.add-form.fields.attributes.placeholder.datepicker')} />
-                                                            </Form.Item>
-                                                        )
-                                                    }
-                                                    {
-                                                        !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'LOCATION' && (
-                                                            <Form.Item
-                                                                {...restField}
-                                                                name={[name, 'value']}
-                                                                fieldKey={[fieldKey, 'value']}
-                                                                label={collectionTypeAttributes && collectionTypeAttributes[key].attributeName}
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: t('collections.single.add-form.fields.attributes.validation.location')
-                                                                    }
-                                                                ]}
-                                                            >
-                                                                <Input placeholder={t('collections.single.add-form.fields.attributes.placeholder.location')} />
-                                                            </Form.Item>
-                                                        )
-                                                    }
-                                                </Col>
-                                            ))
-                                        }
-                                    </Row>
-                                )}
-                            </Form.List>
-                        </Col>
-                    </Row>
+                    {
+                        collectionTypeAttributes.length > 0 && (
+                            <Row gutter={[24, 24]}>
+                                <Col xs={24}>
+                                    <div className="attributes-label">{ t('collectionTypes.list.add-form.fields.attributes.label') }</div>
+                                    <Form.List name="elements_attributes">
+                                        {fields => (
+                                            <Row gutter={[24, 0]}>
+                                                {
+                                                    fields.map(({ key, name, fieldKey, ...restField }) => (
+                                                        <Col xs={12} key={key} className="attribute">
+                                                            {  
+                                                                !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'TEXT' && (
+                                                                    <Form.Item
+                                                                        {...restField}
+                                                                        name={[name, 'value']}
+                                                                        fieldKey={[fieldKey, 'value']}
+                                                                        label={collectionTypeAttributes && collectionTypeAttributes[key].attributeName}
+                                                                        rules={[
+                                                                            {
+                                                                                required: true,
+                                                                                message: t('collections.single.add-form.fields.attributes.validation.input')
+                                                                            }
+                                                                        ]}
+                                                                    >
+                                                                        <Input placeholder={t('collections.single.add-form.fields.attributes.placeholder.input')} />
+                                                                    </Form.Item>
+                                                                )
+                                                            }
+                                                            {
+                                                                !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'NUMBER' && (
+                                                                    <Form.Item
+                                                                        {...restField}
+                                                                        name={[name, 'value']}
+                                                                        fieldKey={[fieldKey, 'value']}
+                                                                        label={collectionTypeAttributes && collectionTypeAttributes[key].attributeName}
+                                                                        rules={[
+                                                                            {
+                                                                                required: true,
+                                                                                message: t('collections.single.add-form.fields.attributes.validation.input')
+                                                                            }
+                                                                        ]}
+                                                                    >
+                                                                        <InputNumber placeholder={t('collections.single.add-form.fields.attributes.placeholder.input')} />
+                                                                    </Form.Item>
+                                                                )
+                                                            }
+                                                            {
+                                                                !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'DATE' && (
+                                                                    <Form.Item
+                                                                        {...restField}
+                                                                        name={[name, 'value']}
+                                                                        fieldKey={[fieldKey, 'value']}
+                                                                        label={collectionTypeAttributes && collectionTypeAttributes[key].attributeName}
+                                                                        rules={[
+                                                                            {
+                                                                                required: true,
+                                                                                message: t('collections.single.add-form.fields.attributes.validation.datepicker')
+                                                                            }
+                                                                        ]}
+                                                                    >
+                                                                        <DatePicker placeholder={t('collections.single.add-form.fields.attributes.placeholder.datepicker')} />
+                                                                    </Form.Item>
+                                                                )
+                                                            }
+                                                            {
+                                                                !!collectionTypeAttributes && collectionTypeAttributes[key]?.attributeType === 'LOCATION' && (
+                                                                    <Form.Item
+                                                                        {...restField}
+                                                                        name={[name, 'value']}
+                                                                        fieldKey={[fieldKey, 'value']}
+                                                                        label={collectionTypeAttributes && collectionTypeAttributes[key].attributeName}
+                                                                        rules={[
+                                                                            {
+                                                                                required: true,
+                                                                                message: t('collections.single.add-form.fields.attributes.validation.location')
+                                                                            }
+                                                                        ]}
+                                                                    >
+                                                                        <Input placeholder={t('collections.single.add-form.fields.attributes.placeholder.location')} />
+                                                                    </Form.Item>
+                                                                )
+                                                            }
+                                                        </Col>
+                                                    ))
+                                                }
+                                            </Row>
+                                        )}
+                                    </Form.List>
+                                </Col>
+                            </Row>
+                        )
+                    }
                 </Form>
             </Modal>
         </div>

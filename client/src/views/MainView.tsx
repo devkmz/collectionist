@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import CollectionList from './Collections/List';
 import CollectionSingle from './Collections/Single';
@@ -10,8 +10,8 @@ import UserList from './Users/List';
 import MobileNavbar from '../components/MobileNavbar';
 import Navbar from '../components/Navbar';
 import TopBar from '../components/TopBar';
+import { useUserState } from '../context';
 import { User } from '../types/user';
-import { useUser } from '../UserContext';
 
 const styles = (): SerializedStyles => css`
     height: 100%;
@@ -125,12 +125,7 @@ interface Props {
 }
 
 const MainView = ({ type }: Props): JSX.Element => {
-    const { user, loadUser } = useUser();
-
-    useEffect(() => {
-        loadUser();
-        // eslint-disable-next-line
-    }, []);
+    const { user } = useUserState();
 
     const renderSwitch = (type: string): JSX.Element => {
         const types: { [key: string]: JSX.Element } = {

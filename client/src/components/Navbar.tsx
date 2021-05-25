@@ -4,7 +4,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { useUser } from '../UserContext';
+import { logout, useUserDispatch, useUserState } from '../context';
+
 
 const styles = (): SerializedStyles => css`
     padding: 0;
@@ -34,7 +35,8 @@ const { Header } = Layout;
 
 const Navbar = (): JSX.Element => {
     const { t } = useTranslation();
-    const { user, clearUser } = useUser();
+    const { user } = useUserState();
+    const dispatch = useUserDispatch();
     
     return (
         <Header className="header" css={styles}>
@@ -83,7 +85,7 @@ const Navbar = (): JSX.Element => {
                         user?.id && (
                             <Menu.Item
                                 key="logout"
-                                onClick={() => clearUser() }
+                                onClick={() => logout(dispatch) }
                             >
                                 <span>{ t('login.common.link.log-out') }</span>
                             </Menu.Item>

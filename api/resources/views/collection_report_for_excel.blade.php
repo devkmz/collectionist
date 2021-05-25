@@ -10,8 +10,8 @@
 
 <body>
     <table>
-        <tr>
-            @if(count($collection['elements']))
+        @if(count($collection['elements']))
+            <tr>
                 <th>L.p.</th>
                 <th>Nazwa elementu</th>
                 <th>Opis elementu</th>
@@ -19,10 +19,21 @@
                     @foreach($collection['elements'][0]->elementsAttributes as $attribute)
                         <th>{{ $attribute['attributeName']}} </th>
                     @endforeach
-            @else 
+                <th>Należy do kolekcji</th>
+                <th>Opis kolekcji</th>
+            </tr>
+        @else
+            <tr>
+                <td>Nazwa kolekcji</td>
+                <td>Opis kolekcji</td>
+                <td>Status</td>
+            </tr>
+            <tr>
+                <td>{{ $collection['info']->name }} </td>
+                <td> {{ $collection['info']->description }} </td>
                 <td>Brak elementów w kolekcji</td>
-            @endif
-        </tr>
+            </tr>
+        @endif
         {{ $i = 1 }}
         @foreach($collection['elements'] ?? '' as $data)
         <tr>
@@ -37,6 +48,8 @@
             @foreach($data->elementsAttributes as $attribute)
                 <td>{{ $attribute['value']}} </td>
             @endforeach
+            <td>{{ $collection['info']->name }} </td>
+            <td> {{ $collection['info']->description }} </td>
         </tr>
         @endforeach
     </table>

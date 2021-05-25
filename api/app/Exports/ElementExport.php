@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\CollectionElement;
+use App\Models\Collection;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
@@ -26,6 +27,7 @@ class ElementExport implements FromView
 
         $data['info'] = $element;
         $data['attributes'] = $attributes;
+        $data['from_collection'] = Collection::findOrFail($element->collection_id);
 
         return view('element_report_for_excel', [
             'element' => $data

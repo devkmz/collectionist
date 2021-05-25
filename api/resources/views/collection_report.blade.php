@@ -50,7 +50,7 @@
 
 <body>
     <div class="collection-info">
-        <p>Elementy pochodzą z kolekcji</p>
+        <p>Kolekcja</p>
         <h3>{{ $collection['info']->name }}</h3>
         <p>{{ $collection['info']->description }}</p>
         @if($collection['info']->image)
@@ -75,6 +75,9 @@
         </table>
         <br/>
     @endforeach
+    @if(!count($collection['elements']))
+        <p>Kolekcja nie zawiera żadnych elementów</p>
+    @endif
 </body>
 
 </html>

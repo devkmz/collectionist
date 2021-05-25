@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CollectionElement;
 use App\Models\ElementsAttributes;
+use App\Models\Collection;
 use App\Exports\ElementExport;
 use DB;
 use PDF;
@@ -85,6 +86,7 @@ class CollectionElementController extends Controller
 
         $data['info'] = $element;
         $data['attributes'] = $attributes;
+        $data['from_collection'] = Collection::findOrFail($element->collection_id);
 
         foreach($attributes as $attribute) {
             if ($attribute->attributeType == "DATE") {

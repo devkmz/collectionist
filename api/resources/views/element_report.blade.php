@@ -53,6 +53,7 @@
     <div class="element-info">
         <h1>{{ $element['info']->elementName }}</h1>
         <p>{{ $element['info']->elementDescription }}</p>
+        <p> Element pochodzi z kolekcji {{ $element['from_collection']->name }} </p>
         @if($element['info']->elementImage)
             <p><img src="<?php echo './storage/'.$element['info']->elementImage['name'];?>" width="80%"/></p>
         @endif

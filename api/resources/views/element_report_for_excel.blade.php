@@ -18,6 +18,7 @@
             @foreach($element['attributes'] ?? '' as $data)
                 <th>{{ $data->attributeName }}</th>
             @endforeach
+            <th>Należy do kolekcji</th>
         </tr>
         <tr>
             <td>{{ $element['info']->id }}</td>
@@ -31,6 +32,7 @@
             @foreach($element['attributes'] ?? '' as $data)
                 <td>{{ $data->value }}</td>
             @endforeach
+            <td> {{ $element['from_collection']->name }} </td>
         </tr>
     <table>
 </body>

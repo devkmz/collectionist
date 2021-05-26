@@ -88,43 +88,12 @@ class UserController extends Controller
         return response()->json(compact('user'));
     }
 
-//    public function adminUpdate(Request $request, $id){
-//        $request->validate([
-//            'name' => 'string|max:50',
-//            'firstName' => 'string|max:50',
-//            'lastName' => 'string|max:50',
-//            'newPassword' => 'string|min:6|confirmed'
-//        ]);
-//
-//        $user = User::findOrFail($id);
-//        $user -> update($request->all());
-//        return User::all()->makeHidden(['email_verified_at', 'updated_at']);
-//    }
     protected function getCurrentUser()
     {
         return JWTAuth::parseToken()->authenticate()->id;
     }
 
-    public function getUserID()
-    {
-        try {
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
-        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-            return response()->json(['token_expired'], $e->getStatusCode());
-        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-            return response()->json(['token_invalid'], $e->getStatusCode());
-        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-            return response()->json(['token_absent'], $e->getStatusCode());
-        }
 
-        $userId = $user->id;
-
-        return $userId;
-
-
-    }
     public function update(Request $request)
     {
         try {
@@ -144,14 +113,35 @@ class UserController extends Controller
         $request -> validate([
             'firstName' => 'string|max:50',
             'lastName' => 'string|max:50',
-            'currentPassword' => ['required|string|min:6', new MatchOldPassword],
+            'password' => ['required|string|min:6', new MatchOldPassword],
             'newPassword' => 'string|min:6|confirmed'
         ]);
 
         $user = User::findOrFail($userId);
-        $user -> update($request->all());
-        //zrobic to postem ->
+        $user -> firstName = $request->get('firstName');
+        $user -> lastName = $request->get('lastName');
+        if($request->newPassword != null){
+            $user -> password = Hash::make($request->get('newPassword'));
+        }
+        $user -> save();
+        return $user;
+    }
 
+    public function adminUpdate(Request $request, $id){
+        $request->validate([
+            'role' => 'nullable|string|max:50',
+            'firstName' => 'nullable|string|max:50',
+            'lastName' => 'nullable|string|max:50',
+            'newPassword' => 'string|min:6|confirmed'
+        ]);
+        $user = User::findOrFail($id);
+        $user -> firstName = $request->get('firstName');
+        $user -> lastName = $request->get('lastName');
+        $user -> role = $request->get('role');
+        if($request->newPassword != null){
+            $user -> password = Hash::make($request->get('newPassword'));
+        }
+        $user -> save();
         return $user;
 
     }

@@ -57,7 +57,6 @@ Route::get('users', 'App\Http\Controllers\UserController@index');
 Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
 Route::put('users/{id}', 'App\Http\Controllers\UserController@adminUpdate');
 Route::put('user', 'App\Http\Controllers\UserController@update');
-Route::get('userid', 'App\Http\Controllers\UserController@getUserID');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', 'App\Http\Controllers\UserController@getAuthenticatedUser');

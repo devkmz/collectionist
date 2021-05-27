@@ -64,6 +64,7 @@ Route::get('collections/{id}/xlsx', 'App\Http\Controllers\CollectionController@c
 Route::get('collections/elements/{id}/pdf', 'App\Http\Controllers\CollectionElementController@createPdf');
 Route::get('collections/elements/{id}/xlsx', 'App\Http\Controllers\CollectionElementController@createXlsx');
 
+
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', 'App\Http\Controllers\UserController@getAuthenticatedUser');
     Route::get('closed', 'App\Http\Controllers\DataController@closed');

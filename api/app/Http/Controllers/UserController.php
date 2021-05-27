@@ -114,6 +114,7 @@ class UserController extends Controller
             'firstName' => 'string|max:50',
             'lastName' => 'string|max:50',
             'password' => 'required|string|min:6',
+            'password' => ['required|string|min:6', new MatchOldPassword],
             'newPassword' => 'string|min:6|confirmed'
         ]);
 
@@ -131,6 +132,11 @@ class UserController extends Controller
             $user -> password = Hash::make($request->get('newPassword'));
         }
 
+        $user -> firstName = $request->get('firstName');
+        $user -> lastName = $request->get('lastName');
+        if($request->newPassword != null){
+            $user -> password = Hash::make($request->get('newPassword'));
+        }
         $user -> save();
         return $user;
     }
@@ -153,6 +159,9 @@ class UserController extends Controller
             $user -> lastName = $request->get('lastName');
         }
 
+        $user = User::findOrFail($id);
+        $user -> firstName = $request->get('firstName');
+        $user -> lastName = $request->get('lastName');
         $user -> role = $request->get('role');
         if($request->newPassword != null){
             $user -> password = Hash::make($request->get('newPassword'));

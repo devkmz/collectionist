@@ -16,10 +16,68 @@
         "delete-user": "Usuń użytkownika",
         "delete-success": "Pomyślnie usunięto użytkownika",
         "edit-user": "Edytuj użytkownika",
-        "edit-success": "Pomyślnie zapisano użytkownika"
+        "edit-success": "Pomyślnie zapisano użytkownika",
+        "edit-form": {
+            "fields": {
+                "email": {
+                    "label": "Adres e-mail"
+                },
+                "first-name": {
+                    "label": "Imię",
+                    "placeholder": "Wpisz imię..."
+                },
+                "last-name": {
+                    "label": "Nazwisko",
+                    "placeholder": "Wpisz nazwisko..."
+                },
+                "role": {
+                    "label": "Rola",
+                    "validation": "Wybierz rolę"
+                },
+                "new-password": {
+                    "label": "Nowe hasło",
+                    "validation": "Wprowadź nowe hasło"
+                },
+                "confirm-password": {
+                    "label": "Powtórz nowe hasło",
+                    "validation": {
+                        "required": "Wprowadź ponownie nowe hasło",
+                        "mismatch": "Podane hasła muszą być takie same"
+                    }
+                }
+            }
+        }
     },
     "profile": {
         "edit": "Edytuj profil",
-        "guest": "Gość"
+        "guest": "Gość",
+        "edit-success": "Pomyślnie zapisano profil",
+        "edit-form": {
+            "fields": {
+                "first-name": {
+                    "label": "Imię",
+                    "placeholder": "Wpisz imię..."
+                },
+                "last-name": {
+                    "label": "Nazwisko",
+                    "placeholder": "Wpisz nazwisko..."
+                },
+                "current-password": {
+                    "label": "Obecne hasło",
+                    "validation": "Wprowadź hasło"
+                },
+                "new-password": {
+                    "label": "Nowe hasło",
+                    "validation": "Wprowadź nowe hasło"
+                },
+                "confirm-password": {
+                    "label": "Powtórz nowe hasło",
+                    "validation": {
+                        "required": "Wprowadź ponownie nowe hasło",
+                        "mismatch": "Podane hasła muszą być takie same"
+                    }
+                }
+            }
+        }
     }
 }

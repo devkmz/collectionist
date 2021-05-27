@@ -1,11 +1,9 @@
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { css, SerializedStyles } from '@emotion/core';
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
-import { User } from '../types/user';
+import MainMenu from './MainMenu';
 
 const styles = (): SerializedStyles => css`
     display: none;
@@ -63,13 +61,8 @@ const styles = (): SerializedStyles => css`
 
 const { Header } = Layout;
 
-interface Props {
-    user?: User;
-}
-
-const MobileNavbar = ({ user }: Props): JSX.Element => {
+const MobileNavbar = (): JSX.Element => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { t } = useTranslation();
     
     return (
         <Header className={`header ${isMenuOpen ? `menu-open` : ``}`} css={styles}>
@@ -78,54 +71,8 @@ const MobileNavbar = ({ user }: Props): JSX.Element => {
                     <h1>Collectionist</h1>
                     <MenuOutlined onClick={() => setIsMenuOpen(prev => !prev)} />
                 </div>
-            </div>            
-            <Menu theme="light">
-                <div className="container">
-                    <Menu.Item
-                        key="collections"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        <Link to="/collections">{ t('collections.list.title') }</Link>
-                    </Menu.Item>
-                    {
-                        user?.role === 'ADMIN' && (
-                            <Menu.Item
-                                key="collection-types"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                <Link to="/collection-types">{ t('collectionTypes.list.title') }</Link>
-                            </Menu.Item>
-                        )
-                    }
-                    {
-                        user?.role === 'ADMIN' && (
-                            <Menu.Item
-                                key="users"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                <Link to="/users">{ t('users.list.title') }</Link>
-                            </Menu.Item>
-                        )
-                    }
-                    {
-                        user?.id ? (
-                            <Menu.Item
-                                key="edit-profile"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                <span>{ t('users.profile.edit') }</span>
-                            </Menu.Item>
-                        ) : (
-                            <Menu.Item
-                                key="login"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                <Link to="/login">{ t('login.common.link.log-in') }</Link>
-                            </Menu.Item>
-                        )
-                    }
-                </div>
-            </Menu>
+            </div>
+            <MainMenu onItemClick={() => setIsMenuOpen(false)} />
         </Header>
     );
 };

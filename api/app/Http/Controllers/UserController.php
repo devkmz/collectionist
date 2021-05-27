@@ -114,7 +114,6 @@ class UserController extends Controller
             'firstName' => 'string|max:50',
             'lastName' => 'string|max:50',
             'password' => 'required|string|min:6',
-            'password' => 'required|string|min:6',
             'newPassword' => 'string|min:6|confirmed'
         ]);
 
@@ -131,9 +130,7 @@ class UserController extends Controller
         if(Hash::check($request->password, $user->password) && $request->newPassword != null){
             $user -> password = Hash::make($request->get('newPassword'));
         }
-
-        $user -> firstName = $request->get('firstName');
-        $user -> lastName = $request->get('lastName');
+        
         if($request->newPassword != null){
             $user -> password = Hash::make($request->get('newPassword'));
         }

@@ -113,16 +113,24 @@ class UserController extends Controller
         $request -> validate([
             'firstName' => 'string|max:50',
             'lastName' => 'string|max:50',
-            'password' => ['required|string|min:6', new MatchOldPassword],
+            'password' => 'required|string|min:6',
             'newPassword' => 'string|min:6|confirmed'
         ]);
 
         $user = User::findOrFail($userId);
-        $user -> firstName = $request->get('firstName');
-        $user -> lastName = $request->get('lastName');
-        if($request->newPassword != null){
+
+        if($request->firstName != null){
+            $user -> firstName = $request->get('firstName');
+        }
+
+        if($request->lastName != null){
+            $user -> lastName = $request->get('lastName');
+        }
+
+        if(Hash::check($request->password, $user->password) && $request->newPassword != null){
             $user -> password = Hash::make($request->get('newPassword'));
         }
+
         $user -> save();
         return $user;
     }
@@ -134,9 +142,17 @@ class UserController extends Controller
             'lastName' => 'nullable|string|max:50',
             'newPassword' => 'string|min:6|confirmed'
         ]);
+
         $user = User::findOrFail($id);
-        $user -> firstName = $request->get('firstName');
-        $user -> lastName = $request->get('lastName');
+
+        if($request->firstName != null){
+            $user -> firstName = $request->get('firstName');
+        }
+
+        if($request->lastName != null){
+            $user -> lastName = $request->get('lastName');
+        }
+
         $user -> role = $request->get('role');
         if($request->newPassword != null){
             $user -> password = Hash::make($request->get('newPassword'));
@@ -145,5 +161,4 @@ class UserController extends Controller
         return $user;
 
     }
-
 }

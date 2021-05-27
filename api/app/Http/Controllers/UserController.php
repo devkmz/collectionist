@@ -114,7 +114,7 @@ class UserController extends Controller
             'firstName' => 'string|max:50',
             'lastName' => 'string|max:50',
             'password' => 'required|string|min:6',
-            'password' => ['required|string|min:6', new MatchOldPassword],
+            'password' => 'required|string|min:6',
             'newPassword' => 'string|min:6|confirmed'
         ]);
 

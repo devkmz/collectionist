@@ -130,7 +130,7 @@ class UserController extends Controller
         if(Hash::check($request->password, $user->password) && $request->newPassword != null){
             $user -> password = Hash::make($request->get('newPassword'));
         }
-        
+
         if($request->newPassword != null){
             $user -> password = Hash::make($request->get('newPassword'));
         }

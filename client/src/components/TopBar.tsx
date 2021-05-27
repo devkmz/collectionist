@@ -43,7 +43,11 @@ const styles = (): SerializedStyles => css`
     }
 `;
 
-const TopBar = (): JSX.Element => {
+interface Props {
+    onProfileEdit: () => void;
+}
+
+const TopBar = ({ onProfileEdit }: Props): JSX.Element => {
     const { t } = useTranslation();
     const { user } = useUserState();
     const dispatch = useUserDispatch();
@@ -69,6 +73,7 @@ const TopBar = (): JSX.Element => {
                                     user?.id ? (
                                         <Menu.Item
                                             key="edit-profile"
+                                            onClick={onProfileEdit}
                                         >
                                             <span>{ t('users.profile.edit') }</span>
                                         </Menu.Item>

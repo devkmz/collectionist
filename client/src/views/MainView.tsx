@@ -1,12 +1,13 @@
 import { Layout } from 'antd';
 import { css, SerializedStyles } from '@emotion/core';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import CollectionList from './Collections/List';
 import CollectionSingle from './Collections/Single';
 import CollectionElementSingle from './CollectionElements/Single';
 import CollectionTypeList from './CollectionTypes/List';
 import UserList from './Users/List';
+import EditProfileModal from '../components/EditProfileModal';
 import MobileNavbar from '../components/MobileNavbar';
 import Navbar from '../components/Navbar';
 import TopBar from '../components/TopBar';
@@ -126,6 +127,8 @@ interface Props {
 
 const MainView = ({ type }: Props): JSX.Element => {
     const { user } = useUserState();
+    const reference = useRef<HTMLDivElement>(null);
+    const [isEditProfileModalVisible, setIsEditProfileModalVisible] = useState(false);
 
     const renderSwitch = (type: string): JSX.Element => {
         const types: { [key: string]: JSX.Element } = {
@@ -141,13 +144,18 @@ const MainView = ({ type }: Props): JSX.Element => {
 
     return (
         <Layout css={styles}>
-            <TopBar />
+            <TopBar onProfileEdit={() => setIsEditProfileModalVisible(true)} />
             <Navbar />
-            <MobileNavbar user={user} />
+            <MobileNavbar />
             <Content>
                 <div className="container">
                     { renderSwitch(type) }
                 </div>
+                <EditProfileModal
+                    reference={reference}
+                    visible={isEditProfileModalVisible}
+                    onClose={() => setIsEditProfileModalVisible(false)}
+                />
             </Content>
         </Layout>
     );

@@ -1,4 +1,4 @@
-import { login, logout, register } from './actions';
+import { login, logout, register, updateUser } from './actions';
 import { UserProvider, useUserDispatch, useUserState } from './context';
  
 export {
@@ -7,5 +7,6 @@ export {
     useUserState,
     login,
     logout,
-    register
+    register,
+    updateUser
 };

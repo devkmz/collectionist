@@ -49,6 +49,23 @@ export const UserReducer = (initialState: any, action: any) => {
         loading: false,
         error: action.error
       };
+    case "CURRENT_USER_UPDATE_INIT":
+      return {
+        ...initialState,
+        loading: true
+      };
+    case "CURRENT_USER_UPDATE_SUCCESS":
+      return {
+        ...initialState,
+        user: action.payload,
+        loading: false
+      };
+    case "CURRENT_USER_UPDATE_ERROR":
+      return {
+        ...initialState,
+        loading: false,
+        error: action.error
+      };
     default:
       throw new Error();
   }

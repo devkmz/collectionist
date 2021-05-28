@@ -64,7 +64,8 @@
                 },
                 "current-password": {
                     "label": "Obecne hasło",
-                    "validation": "Wprowadź hasło"
+                    "validation": "Wprowadź hasło",
+                    "invalid-password": "Niepoprawne hasło"
                 },
                 "new-password": {
                     "label": "Nowe hasło",

@@ -66,6 +66,8 @@ class CollectionElementController extends Controller
         ]); 
 
         $attributeValues = $request->input('elements_attributes');
+        if ($attributeValues == NULL)
+            $attributeValues = [];
 
         for ($i = 0; $i < count($attributeValues); $i++) {
             ElementsAttributes::insert([

@@ -169,7 +169,7 @@ const CollectionElementSingle = (): JSX.Element => {
                     <>
                         <Row gutter={[24, 24]}>
                             <Col className="image" xs={24} sm={24} md={10} lg={10} xl={9}>
-                                <CardImage imageUrl={data?.elementImage?.url} />
+                                <CardImage hasPreview imageUrl={data?.elementImage?.url} />
                             </Col>
                             <Col className="data" xs={24} sm={24} md={14} lg={14} xl={9}>
                                 <div>

@@ -5,6 +5,7 @@ import { css, SerializedStyles } from '@emotion/core';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import useIsMounted from 'react-is-mounted-hook';
 import { Link, useParams } from 'react-router-dom';
 
 import CardImage from '../../components/CardImage';
@@ -97,30 +98,47 @@ const CollectionElementSingle = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false);
     const windowWidth = useWindowWidth();
     const { t } = useTranslation();
+    const isMounted = useIsMounted();
 
     const { id, elementId }: Params = useParams();
 
     const getCollection = async () => {
         try {
+            if (!isMounted()) {
+                return;
+            }
+
             setIsLoading(true);
             const response = await axios.get(`http://localhost:8000/api/collections/${id}`);
             setCollection(response.data);
         } catch (error) {
-            message.error(t('common.messages.error'));
+            if (error.response.status !== 403) {
+                message.error(t('common.messages.error'));
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted()) {
+                setIsLoading(false);
+            }
         }
     };
 
     const getElement = async () => {
         try {
+            if (!isMounted()) {
+                return;
+            }
+
             setIsLoading(true);
             const response = await axios.get(`http://localhost:8000/api/collections/elements/${elementId}`);
             setData(response.data);
         } catch (error) {
-            message.error(t('common.messages.error'));
+            if (error.response.status !== 403) {
+                message.error(t('common.messages.error'));
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted()) {
+                setIsLoading(false);
+            }
         }
     };
 

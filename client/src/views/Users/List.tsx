@@ -5,6 +5,7 @@ import { css, SerializedStyles } from '@emotion/core';
 import moment from 'moment';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import useIsMounted from 'react-is-mounted-hook';
 
 import { USER_ROLES } from '../../constants/userRoles';
 import { User } from '../../types/user';
@@ -44,16 +45,25 @@ const UserList = (): JSX.Element => {
     const [editForm] = Form.useForm();
     const [selectedUser, setSelectedUser] = useState<User | undefined>(undefined);
     const { t } = useTranslation();
+    const isMounted = useIsMounted();
 
     const getUsers = async () => {
         try {
+            if (!isMounted()) {
+                return;
+            }
+
             setIsLoading(true);
             const response = await axios.get('http://localhost:8000/api/users');
             setData(response.data);
         } catch (error) {
-            message.error(t('common.messages.error'));
+            if (error.response.status !== 403) {
+                message.error(t('common.messages.error'));
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted()) {
+                setIsLoading(false);
+            }
         }
     };
 

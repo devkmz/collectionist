@@ -96,7 +96,11 @@ class CollectionTypeController extends Controller
                 foreach($collections as $collection) {
                     $elements = $collection->elements;
                     foreach($elements as $element) {
-                        ElementsAttributes::insert(['element_id' => $element->id, 'attribute_id' => $attributeId, 'attributeName'=>$receivedAttributes[$i]['attributeName'],'attributeType'=>$receivedAttributes[$i]['attributeType'], 'value'=>$attributeValue]);
+                        ElementsAttributes::insert(['element_id' => $element->id, 
+                                                    'attribute_id' => $attributeId, 
+                                                    'attributeName'=>$receivedAttributes[$i]['attributeName'],
+                                                    'attributeType'=>$receivedAttributes[$i]['attributeType'], 
+                                                    'value'=>$attributeValue]);
                     }
                 }
             }

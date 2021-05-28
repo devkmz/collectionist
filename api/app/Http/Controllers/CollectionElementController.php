@@ -7,7 +7,6 @@ use App\Models\CollectionElement;
 use App\Models\ElementsAttributes;
 use App\Models\Collection;
 use App\Exports\ElementExport;
-use DB;
 use PDF;
 use Excel;
 

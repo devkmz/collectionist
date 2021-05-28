@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CollectionType;
 use App\Models\CollectionTypeAttribute;
+use App\Models\ElementsAttributes;
 use DB;
 
 class CollectionTypeController extends Controller
@@ -78,10 +79,26 @@ class CollectionTypeController extends Controller
             if (isset($receivedAttributes[$i]['id'])) {
                 $singleAttribute = CollectionTypeAttribute::findOrFail($receivedAttributes[$i]['id']);
                 $singleAttribute->update($receivedAttributes[$i]);
+                DB::table('elements_attributes')
+                ->where('attribute_id',$receivedAttributes[$i]['id'])
+                ->update(['attributeName'=>$receivedAttributes[$i]['attributeName'],'attributeType'=>$receivedAttributes[$i]['attributeType']]);
             }
             else {
                 $receivedAttributes[$i]['collection_type_id'] = $id;
-                CollectionTypeAttribute::insert($receivedAttributes[$i]);
+                $attributeId = CollectionTypeAttribute::insertGetId($receivedAttributes[$i]);
+                $collections = $collectionType->collections;
+
+                if($receivedAttributes[$i]['attributeType'] == "DATE")
+                    $attributeValue = date(DATE_ATOM);
+                else 
+                    $attributeValue = "";
+
+                foreach($collections as $collection) {
+                    $elements = $collection->elements;
+                    foreach($elements as $element) {
+                        ElementsAttributes::insert(['element_id' => $element->id, 'attribute_id' => $attributeId, 'attributeName'=>$receivedAttributes[$i]['attributeName'],'attributeType'=>$receivedAttributes[$i]['attributeType'], 'value'=>$attributeValue]);
+                    }
+                }
             }
         }
         $updatedData = ['id' => $id, 'typeName' => $newTypeName, 'attributes' => $collectionType->attributes];

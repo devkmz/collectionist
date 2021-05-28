@@ -22,10 +22,6 @@ class UserAccess extends BaseMiddleware
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            if ($user->role != "ADMIN") {
-                $id = $request->route('id');
-                if ($user->id != $id) return response()->json(['error' => 'Not authorized.'],403);
-            }
             return $next($request);
         } 
         catch (Exception $e) {

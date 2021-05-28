@@ -18,7 +18,7 @@ const styles = (): SerializedStyles => css`
         &::after {
             display: block;
             content: "";
-            padding-bottom: 61%;
+            padding-top: 61%;
 
             @media (max-width: 449px) {
                 padding-top: 45%;

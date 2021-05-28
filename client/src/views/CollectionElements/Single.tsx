@@ -17,12 +17,6 @@ import { useWindowWidth } from '../../utils/hooks';
 
 const styles = (): SerializedStyles => css`
     .image {
-        > div {
-            @media (max-width: 767px) {
-                padding-top: 45%;
-            }
-        }
-
         .no-image {
             background: rgba(255, 255, 255, 0.7);
         }

@@ -61,6 +61,13 @@ const styles = (): SerializedStyles => css`
     .attribute {
         margin-bottom: 6px;
     }
+
+    .collection-card {
+        @media (max-width: 449px) {
+            max-width: 100%;
+            flex: 0 0 100%;
+        }
+    }
 `;
 
 interface Props {

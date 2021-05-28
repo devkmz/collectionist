@@ -30,3 +30,7 @@ code {
 .ant-modal-content .ant-modal-body .ant-spin-spinning {
   display: block;
 }
+
+.ant-image-preview-mask {
+  background: rgba(0, 0, 0, 0.75);
+}

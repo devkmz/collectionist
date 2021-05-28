@@ -2,7 +2,7 @@ import { Menu, MenuTheme } from 'antd';
 import { MenuMode } from 'antd/lib/menu';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { logout, useUserDispatch, useUserState } from '../context';
 
@@ -16,6 +16,7 @@ const MainMenu = ({ theme = "light", mode = "vertical", onItemClick = () => {} }
     const { t } = useTranslation();
     const { user } = useUserState();
     const dispatch = useUserDispatch();
+    const history = useHistory();
 
     return (
         <Menu theme={theme} mode={mode}>
@@ -52,6 +53,7 @@ const MainMenu = ({ theme = "light", mode = "vertical", onItemClick = () => {} }
                         onClick={() => {
                             onItemClick();
                             logout(dispatch);
+                            history.push('/');
                         }}
                     >
                         <span>{ t('login.common.link.log-out') }</span>

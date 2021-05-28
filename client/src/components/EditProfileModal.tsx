@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { RefObject, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useUserState } from '../context';
+import { updateUser, useUserDispatch, useUserState } from '../context';
 
 interface Props {
     reference: RefObject<HTMLDivElement>;
@@ -16,6 +16,7 @@ const EditProfileModal = ({ reference, visible, onClose = () => {} }: Props): JS
     const [form] = Form.useForm();
     const [isSaving, setIsSaving] = useState(false);
     const { user } = useUserState();
+    const dispatch = useUserDispatch();
 
     const editUserProfile = async (values: any) => {
         try {
@@ -35,11 +36,23 @@ const EditProfileModal = ({ reference, visible, onClose = () => {} }: Props): JS
                 data: values
             });
 
+            updateUser(dispatch);
             message.success(t('users.profile.edit-success'))
             onClose();
             form.resetFields();
         } catch (error) {
-            message.error(t('common.messages.error'));
+            if (error?.response?.data?.error && error?.response?.data?.error === 'invalid_password') {
+                form.setFields([
+                    {
+                        name: 'password',
+                        errors: [
+                            t('users.profile.edit-form.fields.current-password.invalid-password')
+                        ]
+                    }
+                ]);
+            } else {
+                message.error(t('common.messages.error'));
+            }
         } finally {
             setIsSaving(false);
         }

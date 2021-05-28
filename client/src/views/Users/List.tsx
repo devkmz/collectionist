@@ -36,6 +36,8 @@ const styles = (): SerializedStyles => css`
     }
 `;
 
+const { REACT_APP_API_URL } = process.env;
+
 const UserList = (): JSX.Element => {
     const [data, setData] = useState<Array<User>>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +56,7 @@ const UserList = (): JSX.Element => {
             }
 
             setIsLoading(true);
-            const response = await axios.get('http://localhost:8000/api/users');
+            const response = await axios.get(`${REACT_APP_API_URL}/users`);
             setData(response.data);
         } catch (error) {
             if (error.response.status !== 403) {
@@ -70,7 +72,7 @@ const UserList = (): JSX.Element => {
     const editUser = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.put(`http://localhost:8000/api/users/${selectedUser?.id}`, values);
+            await axios.put(`${REACT_APP_API_URL}/users/${selectedUser?.id}`, values);
             setIsEditModalVisible(false);
             getUsers();
             message.success(t('users.list.edit-success'));
@@ -94,7 +96,7 @@ const UserList = (): JSX.Element => {
                 </>,
             onOk: async () => {
                 try {
-                    await axios.delete(`http://localhost:8000/api/users/${id}`);
+                    await axios.delete(`${REACT_APP_API_URL}/users/${id}`);
                     message.success(t('users.list.delete-success'));
                     getUsers();
                 } catch (error) {

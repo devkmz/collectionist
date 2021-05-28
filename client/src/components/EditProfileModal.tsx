@@ -11,6 +11,8 @@ interface Props {
     onClose: () => void;
 }
 
+const { REACT_APP_API_URL } = process.env;
+
 const EditProfileModal = ({ reference, visible, onClose = () => {} }: Props): JSX.Element => {
     const { t } = useTranslation();
     const [form] = Form.useForm();
@@ -29,7 +31,7 @@ const EditProfileModal = ({ reference, visible, onClose = () => {} }: Props): JS
 
             await axios({
                 method: 'put',
-                url: 'http://localhost:8000/api/user',
+                url: `${REACT_APP_API_URL}/user`,
                 headers: {
                     'Authorization': token
                 },

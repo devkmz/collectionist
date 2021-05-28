@@ -75,6 +75,8 @@ const styles = (): SerializedStyles => css`
     }
 `;
 
+const { REACT_APP_API_URL } = process.env;
+
 const CollectionTypeList = (): JSX.Element => {
     const [data, setData] = useState<Array<CollectionType>>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -93,7 +95,7 @@ const CollectionTypeList = (): JSX.Element => {
             }
 
             setIsLoading(true);
-            const response = await axios.get('http://localhost:8000/api/types');
+            const response = await axios.get(`${REACT_APP_API_URL}/types`);
             setData(response.data);
         } catch (error) {
             if (error.response.status !== 403) {
@@ -117,7 +119,7 @@ const CollectionTypeList = (): JSX.Element => {
                 </>,
             onOk: async () => {
                 try {
-                    await axios.delete(`http://localhost:8000/api/types/${id}`);
+                    await axios.delete(`${REACT_APP_API_URL}/types/${id}`);
                     message.success(t('collectionTypes.list.delete-success'));
                     getCollectionTypes();
                 } catch (error) {
@@ -132,7 +134,7 @@ const CollectionTypeList = (): JSX.Element => {
     const addCollectionType = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.post('http://localhost:8000/api/types', values);
+            await axios.post(`${REACT_APP_API_URL}/types`, values);
             setIsAddModalVisible(false);
             getCollectionTypes();
             message.success(t('collectionTypes.list.add-success'));
@@ -146,7 +148,7 @@ const CollectionTypeList = (): JSX.Element => {
     const editCollectionType = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.put(`http://localhost:8000/api/types/${selectedType?.id}/attributes`, values);
+            await axios.put(`${REACT_APP_API_URL}/types/${selectedType?.id}/attributes`, values);
             setIsAddModalVisible(false);
             getCollectionTypes();
             message.success(t('collectionTypes.list.edit-success'));
@@ -192,7 +194,7 @@ const CollectionTypeList = (): JSX.Element => {
             render: (row: any) => (
                 <Space size="middle">
                     <Link onClick={async () => {
-                        const attributes = await axios.get(`http://localhost:8000/api/types/${row.id}/attributes`);
+                        const attributes = await axios.get(`${REACT_APP_API_URL}/types/${row.id}/attributes`);
 
                         setSelectedType({
                             id: row.id,

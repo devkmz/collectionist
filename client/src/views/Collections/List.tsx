@@ -60,6 +60,8 @@ interface Props {
     user?: User;
 }
 
+const { REACT_APP_API_URL } = process.env;
+
 const CollectionList = ({ user }: Props): JSX.Element => {
     const [data, setData] = useState<Array<Collection>>([]);
     const [filteredData, setFilteredData] = useState<Array<Collection>>([]);
@@ -83,9 +85,9 @@ const CollectionList = ({ user }: Props): JSX.Element => {
             }
             
             setIsLoading(true);
-            const response = await axios.get('http://localhost:8000/api/collections');
+            const response = await axios.get(`${REACT_APP_API_URL}/collections`);
             setData(response.data);
-            const types = await axios.get('http://localhost:8000/api/types');
+            const types = await axios.get(`${REACT_APP_API_URL}/types`);
             setTypesList(types.data);
         } catch (error) {
             if (error.response.status !== 403) {
@@ -109,7 +111,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
                 </>,
             onOk: async () => {
                 try {
-                    await axios.delete(`http://localhost:8000/api/collections/${id}`);
+                    await axios.delete(`${REACT_APP_API_URL}/collections/${id}`);
                     message.success(t('collections.list.delete-success'));
                     getCollections();
                 } catch (error) {
@@ -122,7 +124,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
     const addCollection = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.post('http://localhost:8000/api/collections', values);
+            await axios.post(`${REACT_APP_API_URL}/collections`, values);
             setIsAddModalVisible(false);
             getCollections();
             message.success(t('collections.list.add-success'));
@@ -136,7 +138,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
     const editCollection = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.put(`http://localhost:8000/api/collections/${selectedCollection?.id}`, values);
+            await axios.put(`${REACT_APP_API_URL}/collections/${selectedCollection?.id}`, values);
             setIsAddModalVisible(false);
             getCollections();
             message.success(t('collections.list.edit-success'));
@@ -167,7 +169,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
 
         try {
             const response = await axios.post(
-                'http://localhost:8000/api/collections/file',
+                `${REACT_APP_API_URL}/collections/file`,
                 formData,
                 { headers: { 'content-type': 'multipart/form-data' } }
             );
@@ -185,7 +187,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
 
     const handleFileRemove = async () => {
         try {
-            await axios.delete(`http://localhost:8000/api/collections/file/${imageData.id}`);
+            await axios.delete(`${REACT_APP_API_URL}/collections/file/${imageData.id}`);
             setFileList([]);
             setImageData(undefined);
         } catch (error) {

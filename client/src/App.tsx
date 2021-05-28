@@ -1,8 +1,10 @@
 import { message } from 'antd';
+import axios from 'axios';
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
 import { useUserState } from './context';
+import ErrorPage403 from './views/ErrorPages/403';
 import ForgotPassword from './views/Login/ForgotPassword';
 import LoginForm from './views/Login/Login';
 import RegisterForm from './views/Login/Register';
@@ -14,9 +16,28 @@ message.config({
 
 const App = (): JSX.Element => {
   const { user } = useUserState();
+  const history = useHistory();
+
+  axios.interceptors.response.use(response => {
+      return response;
+    }, error => {
+      const { status } = error.response;
+  
+      if (status === 403) {
+        history.push('/403');
+      }
+      
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <Switch>
+      <Route
+        path="/403"
+        render={() => <ErrorPage403 />}
+        exact
+      />
       <Route
           path="/collections"
           render={() => <MainView user={user} type={"collections"} />}
@@ -32,24 +53,24 @@ const App = (): JSX.Element => {
           render={() => <MainView user={user} type={"collectionElementSingle"} />}
           exact
       />
-      {
-        user?.role === 'ADMIN' && (
-          <Route
-              path="/collection-types"
-              render={() => <MainView user={user} type={"collectionTypes"} />}
-              exact
-          />
-        )
-      }
-      {
-        user?.role === 'ADMIN' && (
-          <Route
-            path="/users"
-            render={() => <MainView user={user} type={"users"} />}
-            exact
-          />
-        )
-      }
+      <Route
+          path="/collection-types"
+          render={() => user?.role === 'ADMIN' ? (
+            <MainView user={user} type={"collectionTypes"} />
+          ) : (
+            <ErrorPage403 />
+          )}
+          exact
+      />
+      <Route
+          path="/users"
+          render={() => user?.role === 'ADMIN' ? (
+            <MainView user={user} type={"users"} />
+          ) : (
+            <ErrorPage403 />
+          )}
+          exact
+      />
       {
         !user?.id && (
           <Route

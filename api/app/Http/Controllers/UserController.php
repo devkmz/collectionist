@@ -111,29 +111,25 @@ class UserController extends Controller
         $userId = $user->id;
 
         $request -> validate([
-            'firstName' => 'string|max:50',
-            'lastName' => 'string|max:50',
+            'firstName' => 'nullable|string|max:50',
+            'lastName' => 'nullable|string|max:50',
             'password' => 'required|string|min:6',
-            'newPassword' => 'string|min:6|confirmed'
+            'newPassword' => 'nullable|string|min:6|confirmed'
         ]);
 
         $user = User::findOrFail($userId);
 
-        if($request->firstName != null){
+        if(Hash::check($request->get('password'), $user->password)){
             $user -> firstName = $request->get('firstName');
-        }
-
-        if($request->lastName != null){
             $user -> lastName = $request->get('lastName');
+
+            if($request->get('newPassword') != null){
+                $user -> password = Hash::make($request->get('newPassword'));
+            }
+        }else{
+            return response()->json(['error' => 'invalid_password'], 400);
         }
 
-        if(Hash::check($request->password, $user->password) && $request->newPassword != null){
-            $user -> password = Hash::make($request->get('newPassword'));
-        }
-
-        if($request->newPassword != null){
-            $user -> password = Hash::make($request->get('newPassword'));
-        }
         $user -> save();
         return $user;
     }
@@ -148,19 +144,11 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        if($request->firstName != null){
-            $user -> firstName = $request->get('firstName');
-        }
-
-        if($request->lastName != null){
-            $user -> lastName = $request->get('lastName');
-        }
-
-        $user = User::findOrFail($id);
         $user -> firstName = $request->get('firstName');
         $user -> lastName = $request->get('lastName');
         $user -> role = $request->get('role');
-        if($request->newPassword != null){
+
+        if($request->get('newPassword') != null){
             $user -> password = Hash::make($request->get('newPassword'));
         }
         $user -> save();

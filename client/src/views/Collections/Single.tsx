@@ -9,6 +9,7 @@ import useIsMounted from 'react-is-mounted-hook';
 import { Link, useParams } from 'react-router-dom';
 
 import CardImage from '../../components/CardImage';
+import ReportLink from '../../components/ReportLink';
 import { Attribute } from '../../types/attribute';
 import { Collection } from '../../types/collection';
 import { CollectionElement } from '../../types/collectionElement';
@@ -263,14 +264,14 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                             inlineIndent={0}
                         >
                             <Menu.Item icon={<FilePdfOutlined />}>
-                                <a download href={`${REACT_APP_API_URL}/collections/${id}/pdf`}>
-                                    { t('collections.single.sections.aside.report.actions-menu.download-report.pdf')}
-                                </a>
+                                <ReportLink url={`${REACT_APP_API_URL}/collections/${id}/pdf`} filename={`collection-${id}-report.pdf`}>
+                                    { t('collections.single.sections.aside.report.actions-menu.download-report.pdf') }
+                                </ReportLink>
                             </Menu.Item>
                             <Menu.Item icon={<FileExcelOutlined />}>
-                                <a download href={`${REACT_APP_API_URL}/collections/${id}/xlsx`}>
+                                <ReportLink url={`${REACT_APP_API_URL}/collections/${id}/xlsx`} filename={`collection-${id}-report.xlsx`}>
                                     { t('collections.single.sections.aside.report.actions-menu.download-report.xlsx') }
-                                </a>
+                                </ReportLink>
                             </Menu.Item>
                         </Menu>
                     </Card>
@@ -314,14 +315,14 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                 inlineIndent={0}
                             >
                                 <Menu.Item icon={<FilePdfOutlined />}>
-                                    <a download href={`${REACT_APP_API_URL}/collections/${id}/pdf`}>
-                                        { t('collections.single.sections.aside.report.actions-menu.download-report.pdf')}
-                                    </a>
+                                    <ReportLink url={`${REACT_APP_API_URL}/collections/${id}/pdf`} filename={`collection-${id}-report.pdf`}>
+                                        { t('collections.single.sections.aside.report.actions-menu.download-report.pdf') }
+                                    </ReportLink>
                                 </Menu.Item>
                                 <Menu.Item icon={<FileExcelOutlined />}>
-                                    <a download href={`${REACT_APP_API_URL}/collections/${id}/xlsx`}>
+                                    <ReportLink url={`${REACT_APP_API_URL}/collections/${id}/xlsx`} filename={`collection-${id}-report.xlsx`}>
                                         { t('collections.single.sections.aside.report.actions-menu.download-report.xlsx') }
-                                    </a>
+                                    </ReportLink>
                                 </Menu.Item>
                             </Menu>
                         </Card>

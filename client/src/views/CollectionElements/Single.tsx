@@ -10,6 +10,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import CardImage from '../../components/CardImage';
 import Map from '../../components/Map';
+import ReportLink from '../../components/ReportLink';
 import { Collection } from '../../types/collection';
 import { CollectionElement } from '../../types/collectionElement';
 import { useWindowWidth } from '../../utils/hooks';
@@ -188,14 +189,14 @@ const CollectionElementSingle = (): JSX.Element => {
                                             </Link>
                                         </Menu.Item>
                                         <Menu.Item icon={<FilePdfOutlined />}>
-                                            <a download href={`${REACT_APP_API_URL}/collections/elements/${elementId}/pdf`}>
-                                                { t('collectionElements.single.actions-menu.download-report.pdf')}
-                                            </a>
+                                            <ReportLink url={`${REACT_APP_API_URL}/collections/elements/${elementId}/pdf`} filename={`collection-element-${elementId}-report.pdf`}>
+                                                { t('collectionElements.single.actions-menu.download-report.pdf') }
+                                            </ReportLink>
                                         </Menu.Item>
                                         <Menu.Item icon={<FileExcelOutlined />}>
-                                            <a download href={`${REACT_APP_API_URL}/collections/elements/${elementId}/xlsx`}>
-                                                { t('collectionElements.single.actions-menu.download-report.xlsx') }
-                                            </a>
+                                            <ReportLink url={`${REACT_APP_API_URL}/collections/elements/${elementId}/xlsx`} filename={`collection-element-${elementId}-report.xlsx`}>
+                                            { t('collectionElements.single.actions-menu.download-report.xlsx') }
+                                            </ReportLink>
                                         </Menu.Item>
                                     </Menu>
                                 </Card>

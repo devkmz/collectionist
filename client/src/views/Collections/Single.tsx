@@ -70,6 +70,8 @@ interface Params {
     id?: string;
 }
 
+const { REACT_APP_API_URL } = process.env;
+
 const CollectionSingle = ({ user }: Props): JSX.Element => {
     const [collection, setCollection] = useState<Collection | undefined>(undefined);
     const [collectionTypeAttributes, setCollectionTypeAttributes] = useState<Array<Attribute>>([]);
@@ -96,9 +98,9 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
             }
 
             setIsLoading(true);
-            const response = await axios.get(`http://localhost:8000/api/collections/${id}`);
+            const response = await axios.get(`${REACT_APP_API_URL}/collections/${id}`);
             setCollection(response.data);
-            const attributes = await axios.get(`http://localhost:8000/api/types/${response.data.collection_type_id}/attributes`);
+            const attributes = await axios.get(`${REACT_APP_API_URL}/types/${response.data.collection_type_id}/attributes`);
             setCollectionTypeAttributes(attributes.data);
         } catch (error) {
             if (error.response.status !== 403) {
@@ -118,7 +120,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
             }
 
             setIsLoading(true);
-            const response = await axios.get(`http://localhost:8000/api/collections/${id}/elements`);
+            const response = await axios.get(`${REACT_APP_API_URL}/collections/${id}/elements`);
             setData(response.data);
         } catch (error) {
             if (error.response.status !== 403) {
@@ -142,7 +144,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                 </>,
             onOk: async () => {
                 try {
-                    await axios.delete(`http://localhost:8000/api/collections/elements/${elementId}`);
+                    await axios.delete(`${REACT_APP_API_URL}/collections/elements/${elementId}`);
                     message.success(t('collections.single.delete-success'));
                     getCollectionElements();
                 } catch (error) {
@@ -155,7 +157,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
     const addCollectionElement = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.post(`http://localhost:8000/api/collections/${id}/elements`, values);
+            await axios.post(`${REACT_APP_API_URL}/collections/${id}/elements`, values);
             setIsAddModalVisible(false);
             getCollectionElements();
             message.success(t('collections.single.add-success'));
@@ -169,7 +171,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
     const editCollectionElement = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.put(`http://localhost:8000/api/collections/elements/${selectedCollectionElement?.id}`, values);
+            await axios.put(`${REACT_APP_API_URL}/collections/elements/${selectedCollectionElement?.id}`, values);
             setIsAddModalVisible(false);
             getCollectionElements();
             message.success(t('collections.single.edit-success'));
@@ -201,7 +203,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
 
         try {
             const response = await axios.post(
-                'http://localhost:8000/api/collections/file',
+                `${REACT_APP_API_URL}/collections/file`,
                 formData,
                 { headers: { 'content-type': 'multipart/form-data' } }
             );
@@ -219,7 +221,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
 
     const handleFileRemove = async () => {
         try {
-            await axios.delete(`http://localhost:8000/api/collections/file/${imageData.id}`);
+            await axios.delete(`${REACT_APP_API_URL}/collections/file/${imageData.id}`);
             setFileList([]);
             setImageData(undefined);
         } catch (error) {
@@ -261,12 +263,12 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                             inlineIndent={0}
                         >
                             <Menu.Item icon={<FilePdfOutlined />}>
-                                <a download href={`http://localhost:8000/api/collections/${id}/pdf`}>
+                                <a download href={`${REACT_APP_API_URL}/collections/${id}/pdf`}>
                                     { t('collections.single.sections.aside.report.actions-menu.download-report.pdf')}
                                 </a>
                             </Menu.Item>
                             <Menu.Item icon={<FileExcelOutlined />}>
-                                <a download href={`http://localhost:8000/api/collections/${id}/xlsx`}>
+                                <a download href={`${REACT_APP_API_URL}/collections/${id}/xlsx`}>
                                     { t('collections.single.sections.aside.report.actions-menu.download-report.xlsx') }
                                 </a>
                             </Menu.Item>
@@ -312,12 +314,12 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
                                 inlineIndent={0}
                             >
                                 <Menu.Item icon={<FilePdfOutlined />}>
-                                    <a download href={`http://localhost:8000/api/collections/${id}/pdf`}>
+                                    <a download href={`${REACT_APP_API_URL}/collections/${id}/pdf`}>
                                         { t('collections.single.sections.aside.report.actions-menu.download-report.pdf')}
                                     </a>
                                 </Menu.Item>
                                 <Menu.Item icon={<FileExcelOutlined />}>
-                                    <a download href={`http://localhost:8000/api/collections/${id}/xlsx`}>
+                                    <a download href={`${REACT_APP_API_URL}/collections/${id}/xlsx`}>
                                         { t('collections.single.sections.aside.report.actions-menu.download-report.xlsx') }
                                     </a>
                                 </Menu.Item>

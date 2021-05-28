@@ -92,6 +92,8 @@ interface Params {
     elementId?: string;
 }
 
+const { REACT_APP_API_URL } = process.env;
+
 const CollectionElementSingle = (): JSX.Element => {
     const [collection, setCollection] = useState<Collection | undefined>(undefined);
     const [data, setData] = useState<CollectionElement | undefined>(undefined);
@@ -109,7 +111,7 @@ const CollectionElementSingle = (): JSX.Element => {
             }
 
             setIsLoading(true);
-            const response = await axios.get(`http://localhost:8000/api/collections/${id}`);
+            const response = await axios.get(`${REACT_APP_API_URL}/collections/${id}`);
             setCollection(response.data);
         } catch (error) {
             if (error.response.status !== 403) {
@@ -129,7 +131,7 @@ const CollectionElementSingle = (): JSX.Element => {
             }
 
             setIsLoading(true);
-            const response = await axios.get(`http://localhost:8000/api/collections/elements/${elementId}`);
+            const response = await axios.get(`${REACT_APP_API_URL}/collections/elements/${elementId}`);
             setData(response.data);
         } catch (error) {
             if (error.response.status !== 403) {
@@ -186,12 +188,12 @@ const CollectionElementSingle = (): JSX.Element => {
                                             </Link>
                                         </Menu.Item>
                                         <Menu.Item icon={<FilePdfOutlined />}>
-                                            <a download href={`http://localhost:8000/api/collections/elements/${elementId}/pdf`}>
+                                            <a download href={`${REACT_APP_API_URL}/collections/elements/${elementId}/pdf`}>
                                                 { t('collectionElements.single.actions-menu.download-report.pdf')}
                                             </a>
                                         </Menu.Item>
                                         <Menu.Item icon={<FileExcelOutlined />}>
-                                            <a download href={`http://localhost:8000/api/collections/elements/${elementId}/xlsx`}>
+                                            <a download href={`${REACT_APP_API_URL}/collections/elements/${elementId}/xlsx`}>
                                                 { t('collectionElements.single.actions-menu.download-report.xlsx') }
                                             </a>
                                         </Menu.Item>

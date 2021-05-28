@@ -26,3 +26,7 @@ code {
     top: 74px !important;
   }
 }
+
+.ant-modal-content .ant-modal-body .ant-spin-spinning {
+  display: block;
+}

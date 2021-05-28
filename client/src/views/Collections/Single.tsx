@@ -5,6 +5,7 @@ import { css, SerializedStyles } from '@emotion/core';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import useIsMounted from 'react-is-mounted-hook';
 import { Link, useParams } from 'react-router-dom';
 
 import CardImage from '../../components/CardImage';
@@ -84,32 +85,49 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
     const [imageData, setImageData] = useState<any>(undefined);
     const [selectedCollectionElement, setSelectedCollectionElement] = useState<CollectionElement>();
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const isMounted = useIsMounted();
 
     const { id }: Params = useParams();
 
     const getCollection = async () => {
         try {
+            if (!isMounted()) {
+                return;
+            }
+
             setIsLoading(true);
             const response = await axios.get(`http://localhost:8000/api/collections/${id}`);
             setCollection(response.data);
             const attributes = await axios.get(`http://localhost:8000/api/types/${response.data.collection_type_id}/attributes`);
             setCollectionTypeAttributes(attributes.data);
         } catch (error) {
-            message.error(t('common.messages.error'));
+            if (error.response.status !== 403) {
+                message.error(t('common.messages.error'));
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted()) {
+                setIsLoading(false);
+            }
         }
     };
 
     const getCollectionElements = async () => {
         try {
+            if (!isMounted()) {
+                return;
+            }
+
             setIsLoading(true);
             const response = await axios.get(`http://localhost:8000/api/collections/${id}/elements`);
             setData(response.data);
         } catch (error) {
-            message.error(t('common.messages.error'));
+            if (error.response.status !== 403) {
+                message.error(t('common.messages.error'));
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted()) {
+                setIsLoading(false);
+            }
         }
     };
 
@@ -170,8 +188,10 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
     }, []);
 
     useEffect(() => {
-        setFilteredData(data);
-    }, [data]);
+        if (isMounted()) {
+            setFilteredData(data);
+        }
+    }, [data, isMounted]);
 
     const handleFileUpload = async (options: any) => {
         const { onSuccess, onError, file } = options;

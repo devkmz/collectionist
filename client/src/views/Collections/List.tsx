@@ -4,6 +4,7 @@ import axios from 'axios';
 import { css, SerializedStyles } from '@emotion/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import useIsMounted from 'react-is-mounted-hook';
 import { Link } from 'react-router-dom';
 
 import CardImage from '../../components/CardImage';
@@ -73,18 +74,27 @@ const CollectionList = ({ user }: Props): JSX.Element => {
     const [imageData, setImageData] = useState<any>(undefined);
     const [selectedCollection, setSelectedCollection] = useState<Collection>();
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const isMounted = useIsMounted();
 
     const getCollections = async () => {
         try {
+            if (!isMounted()) {
+                return;
+            }
+            
             setIsLoading(true);
             const response = await axios.get('http://localhost:8000/api/collections');
             setData(response.data);
             const types = await axios.get('http://localhost:8000/api/types');
             setTypesList(types.data);
         } catch (error) {
-            message.error(t('common.messages.error'));
+            if (error.response.status !== 403) {
+                message.error(t('common.messages.error'));
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted()) {
+                setIsLoading(false);
+            }
         }
     };
 
@@ -144,8 +154,10 @@ const CollectionList = ({ user }: Props): JSX.Element => {
     }, []);
 
     useEffect(() => {
-        setFilteredData(data);
-    }, [data]);
+        if (isMounted()) {
+            setFilteredData(data);
+        }
+    }, [data, isMounted]);
 
     const handleFileUpload = async (options: any) => {
         const { onSuccess, onError, file } = options;

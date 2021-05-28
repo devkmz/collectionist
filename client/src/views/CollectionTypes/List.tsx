@@ -4,6 +4,7 @@ import axios from 'axios';
 import { css, SerializedStyles } from '@emotion/core';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import useIsMounted from 'react-is-mounted-hook';
 
 import { ATTRIBUTE_DATA_TYPES } from '../../constants/attributeDataTypes';
 import { CollectionType } from '../../types/collectionType';
@@ -83,16 +84,25 @@ const CollectionTypeList = (): JSX.Element => {
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [addForm] = Form.useForm();
     const [selectedType, setSelectedType] = useState<CollectionType | undefined>(undefined);
+    const isMounted = useIsMounted();
 
     const getCollectionTypes = async () => {
         try {
+            if (!isMounted()) {
+                return;
+            }
+
             setIsLoading(true);
             const response = await axios.get('http://localhost:8000/api/types');
             setData(response.data);
         } catch (error) {
-            message.error(t('common.messages.error'));
+            if (error.response.status !== 403) {
+                message.error(t('common.messages.error'));
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted()) {
+                setIsLoading(false);
+            }
         }
     };
 

@@ -1,9 +1,10 @@
-import { Avatar, Dropdown, Menu } from 'antd';
+import { Avatar, Col, Dropdown, Form, Menu, message, Modal, Radio, Row, Spin } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import axios from 'axios';
 import { css, SerializedStyles } from '@emotion/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { logout, useUserDispatch, useUserState } from '../context';
 
@@ -52,6 +53,25 @@ const TopBar = ({ onProfileEdit }: Props): JSX.Element => {
     const { user } = useUserState();
     const dispatch = useUserDispatch();
 
+    const [settingsForm] = Form.useForm();
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false);
+    const history = useHistory();
+
+    const saveSettings = async (values: any) => {
+        try {
+            setIsSaving(true);
+            await axios.put('http://localhost:8000/api/access', values);
+            setIsSettingsModalVisible(false);
+            message.success(t('settings.edit-success'));
+        } catch (error) {
+            message.error(t('common.messages.error'));
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
     return (
         <div css={styles}>
             <div className="container">
@@ -89,6 +109,20 @@ const TopBar = ({ onProfileEdit }: Props): JSX.Element => {
                                     user?.role === 'ADMIN' && (
                                         <Menu.Item
                                             key="settings"
+                                            onClick={async () => {
+                                                try {
+                                                    setIsLoading(true);
+                                                    setIsSettingsModalVisible(true);
+                                                    const response = await axios.get('http://localhost:8000/api/access');
+                                                    settingsForm.setFieldsValue(!!response.data
+                                                        ? { ...response.data, isPublic: !!(response.data as any)['isPublic'] }
+                                                        : { isPublic: false });
+                                                } catch (error) {
+                                                    message.error(t('common.messages.error'));
+                                                } finally {
+                                                    setIsLoading(false);
+                                                }
+                                            }}
                                         >
                                             { t('settings.title') }
                                         </Menu.Item>
@@ -98,7 +132,10 @@ const TopBar = ({ onProfileEdit }: Props): JSX.Element => {
                                     user?.id && (
                                         <Menu.Item
                                             key="logout"
-                                            onClick={() => logout(dispatch) }
+                                            onClick={() => {
+                                                logout(dispatch);
+                                                history.push('/');
+                                            }}
                                         >
                                             <span>{ t('login.common.link.log-out') }</span>
                                         </Menu.Item>
@@ -113,6 +150,56 @@ const TopBar = ({ onProfileEdit }: Props): JSX.Element => {
                     )
                 }
             </div>
+            <Modal
+                title={t('settings.title')}
+                visible={isSettingsModalVisible}
+                onOk={() => {
+                    settingsForm.validateFields()
+                    .then(values => {
+                        saveSettings({ ...values, isPublic: Number(values.isPublic) });
+                    })
+                    .catch(error => {});
+                }}
+                onCancel={() => {
+                    setIsSettingsModalVisible(false);
+                    settingsForm.resetFields();
+                }}
+                okText={t('common.actions.save')}
+                cancelText={t('common.actions.cancel')}
+                confirmLoading={isSaving}
+            >
+                {
+                    isLoading ? (
+                        <Spin size="small" />
+                    ) : (
+                        <Form
+                            form={settingsForm}
+                            layout="vertical"
+                            requiredMark={false}
+                        >
+                            <Row gutter={[24, 0]}>
+                                <Col xs={24}>
+                                    <Form.Item
+                                        name="isPublic"
+                                        label={t('settings.settings-form.fields.is-public.label')}
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: t('settings.settings-form.fields.is-public.validation'),
+                                            }
+                                        ]}
+                                    >
+                                        <Radio.Group buttonStyle="solid">
+                                            <Radio.Button value={true}>{ t('settings.settings-form.fields.is-public.public') }</Radio.Button>
+                                            <Radio.Button value={false}>{ t('settings.settings-form.fields.is-public.not-public') }</Radio.Button>
+                                        </Radio.Group>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Form>
+                    )
+                }
+            </Modal>
         </div>
     )
 };

@@ -1,3 +1,14 @@
 {
-  "title": "Ustawienia"
+  "title": "Ustawienia",
+  "edit-success": "Pomyślnie zapisano ustawienia",
+  "settings-form": {
+    "fields": {
+      "is-public": {
+        "label": "Dostęp do katalogu",
+        "validation": "Wybierz opcję",
+        "public": "Publiczny",
+        "not-public": "Dla zalogowanych"
+      }
+    }
+  }
 }

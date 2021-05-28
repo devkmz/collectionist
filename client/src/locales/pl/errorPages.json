@@ -1,0 +1,12 @@
+{
+    "403": {
+        "header": "403",
+        "subheader": "Brak uprawnień",
+        "content": {
+            "login-button": "Zaloguj się",
+            "return-button": "Powrót na stronę główną",
+            "no-permissions-message": "Nie masz uprawnień żeby przeglądać tę stronę.",
+            "login-to-continue-message": "Aby móc to zrobić zaloguj się"
+        }
+    }
+}

@@ -48,6 +48,8 @@ interface Props {
     onProfileEdit: () => void;
 }
 
+const { REACT_APP_API_URL } = process.env;
+
 const TopBar = ({ onProfileEdit }: Props): JSX.Element => {
     const { t } = useTranslation();
     const { user } = useUserState();
@@ -62,7 +64,7 @@ const TopBar = ({ onProfileEdit }: Props): JSX.Element => {
     const saveSettings = async (values: any) => {
         try {
             setIsSaving(true);
-            await axios.put('http://localhost:8000/api/access', values);
+            await axios.put(`${REACT_APP_API_URL}/access`, values);
             setIsSettingsModalVisible(false);
             message.success(t('settings.edit-success'));
         } catch (error) {
@@ -113,7 +115,7 @@ const TopBar = ({ onProfileEdit }: Props): JSX.Element => {
                                                 try {
                                                     setIsLoading(true);
                                                     setIsSettingsModalVisible(true);
-                                                    const response = await axios.get('http://localhost:8000/api/access');
+                                                    const response = await axios.get(`${REACT_APP_API_URL}/access`);
                                                     settingsForm.setFieldsValue(!!response.data
                                                         ? { ...response.data, isPublic: !!(response.data as any)['isPublic'] }
                                                         : { isPublic: false });

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const { REACT_APP_API_URL } = process.env;
+
 export const updateUser = async (dispatch: any) => {
   try {
     dispatch({ type: "CURRENT_USER_UPDATE_INIT" });
@@ -11,7 +13,7 @@ export const updateUser = async (dispatch: any) => {
 
     const userResponse = await axios({
       method: 'get',
-      url: 'http://localhost:8000/api/user',
+      url: `${REACT_APP_API_URL}/user`,
       headers: {
           'Authorization': token
       }
@@ -35,7 +37,7 @@ export const register = async (dispatch: any, payload: any) => {
   try {
     dispatch({ type: "REGISTER_INIT" });
     const { email, password, confirmPassword } = payload;
-    await axios.post('http://localhost:8000/api/register', { email, password, password_confirmation: confirmPassword });
+    await axios.post(`${REACT_APP_API_URL}/register`, { email, password, password_confirmation: confirmPassword });
     dispatch({ type: "REGISTER_SUCCESS" });
     return true;
   } catch (error) {
@@ -48,7 +50,7 @@ export const login = async (dispatch: any, payload: any) => {
   try {
     dispatch({ type: "LOGIN_INIT" });
     const { email, password } = payload;
-    const response = await axios.post('http://localhost:8000/api/login', {email, password });
+    const response = await axios.post(`${REACT_APP_API_URL}/login`, {email, password });
 
     if (response.data) {
       const { token } = response.data;
@@ -60,7 +62,7 @@ export const login = async (dispatch: any, payload: any) => {
 
       const userResponse = await axios({
         method: 'get',
-        url: 'http://localhost:8000/api/user',
+        url: `${REACT_APP_API_URL}/user`,
         headers: {
             'Authorization': `Bearer ${token}`
         }

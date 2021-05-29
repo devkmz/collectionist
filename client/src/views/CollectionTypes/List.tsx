@@ -98,7 +98,7 @@ const CollectionTypeList = (): JSX.Element => {
             const response = await axios.get(`${REACT_APP_API_URL}/types`);
             setData(response.data);
         } catch (error) {
-            if (error.response.status !== 403) {
+            if (error?.response?.status !== 403) {
                 message.error(t('common.messages.error'));
             }
         } finally {
@@ -123,7 +123,7 @@ const CollectionTypeList = (): JSX.Element => {
                     message.success(t('collectionTypes.list.delete-success'));
                     getCollectionTypes();
                 } catch (error) {
-                    message.error(error.response.status === 409
+                    message.error(error?.response?.status === 409
                         ? t('collectionTypes.list.delete-fail-type-in-use')
                         : t('common.messages.error'));
                 }

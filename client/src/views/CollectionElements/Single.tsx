@@ -109,7 +109,7 @@ const CollectionElementSingle = (): JSX.Element => {
             const response = await axios.get(`${REACT_APP_API_URL}/collections/${id}`);
             setCollection(response.data);
         } catch (error) {
-            if (error.response.status !== 403) {
+            if (error?.response?.status !== 403) {
                 message.error(t('common.messages.error'));
             }
         } finally {
@@ -129,7 +129,7 @@ const CollectionElementSingle = (): JSX.Element => {
             const response = await axios.get(`${REACT_APP_API_URL}/collections/elements/${elementId}`);
             setData(response.data);
         } catch (error) {
-            if (error.response.status !== 403) {
+            if (error?.response?.status !== 403) {
                 message.error(t('common.messages.error'));
             }
         } finally {

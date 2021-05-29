@@ -59,7 +59,7 @@ const UserList = (): JSX.Element => {
             const response = await axios.get(`${REACT_APP_API_URL}/users`);
             setData(response.data);
         } catch (error) {
-            if (error.response.status !== 403) {
+            if (error?.response?.status !== 403) {
                 message.error(t('common.messages.error'));
             }
         } finally {

@@ -9,6 +9,7 @@ const styles = (): SerializedStyles => css`
     background: #fff;
     height: 80px;
     line-height: 80px;
+    box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.11);
 
     @media (max-width: 767px) {
         display: none;
@@ -25,6 +26,7 @@ const styles = (): SerializedStyles => css`
 
     .ant-menu {
         line-height: 79px;
+        border-bottom: none;
     }
 `;
 

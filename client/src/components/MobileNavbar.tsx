@@ -12,7 +12,7 @@ const styles = (): SerializedStyles => css`
     top: 40px;
     left: 0;
     right: 0;
-    z-index: 1001;
+    z-index: 1000;
 
     @media (max-width: 767px) {
         display: block;
@@ -32,6 +32,7 @@ const styles = (): SerializedStyles => css`
         background: #fff;
         height: 64px;
         line-height: 64px;
+        box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.11);
 
         h1 {
             margin-bottom: 0;
@@ -52,6 +53,9 @@ const styles = (): SerializedStyles => css`
         width: 540px;
         margin: 0 auto;
         line-height: 48px;
+        position: relative;
+        box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.1);
+        z-index: -1;
 
         @media (max-width: 575px) {
             width: 100%;

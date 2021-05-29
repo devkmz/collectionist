@@ -90,7 +90,7 @@ const CollectionList = ({ user }: Props): JSX.Element => {
             const types = await axios.get(`${REACT_APP_API_URL}/types`);
             setTypesList(types.data);
         } catch (error) {
-            if (error.response.status !== 403) {
+            if (error?.response?.status !== 403) {
                 message.error(t('common.messages.error'));
             }
         } finally {

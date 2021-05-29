@@ -18,7 +18,7 @@ const styles = (): SerializedStyles => css`
         top: 0;
         left: 0;
         right: 0;
-        z-index: 1001;
+        z-index: 1000;
     }
 
     .container {

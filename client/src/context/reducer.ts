@@ -19,7 +19,8 @@ export const UserReducer = (initialState: any, action: any) => {
       return {
         ...initialState,
         user: action.payload,
-        loading: false
+        loading: false,
+        error: undefined
       };
     case "LOGOUT":
       return {

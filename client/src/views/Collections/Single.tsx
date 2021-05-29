@@ -111,7 +111,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
             const attributes = await axios.get(`${REACT_APP_API_URL}/types/${response.data.collection_type_id}/attributes`);
             setCollectionTypeAttributes(attributes.data);
         } catch (error) {
-            if (error.response.status !== 403) {
+            if (error?.response?.status !== 403) {
                 message.error(t('common.messages.error'));
             }
         } finally {
@@ -131,7 +131,7 @@ const CollectionSingle = ({ user }: Props): JSX.Element => {
             const response = await axios.get(`${REACT_APP_API_URL}/collections/${id}/elements`);
             setData(response.data);
         } catch (error) {
-            if (error.response.status !== 403) {
+            if (error?.response?.status !== 403) {
                 message.error(t('common.messages.error'));
             }
         } finally {

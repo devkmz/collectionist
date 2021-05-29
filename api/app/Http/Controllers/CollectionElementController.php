@@ -37,12 +37,15 @@ class CollectionElementController extends Controller
         $collectionElement->update($request->all());
         $newValues = $request->input('elements_attributes');
         $currentValues = $collectionElement->elementsAttributes;
-        $i = 0;
-        foreach ($newValues as $newValue){
-            $currentValues[$i]->update($newValue);
-            $i++;
-        }
+
+        if ($newValues != NULL){
+            $i = 0;
+            foreach ($newValues as $newValue){
+                $currentValues[$i]->update($newValue);
+                $i++;
+            }
         return $collectionElement;
+    }
     }
 
     public function delete (Request $request, $id) {

@@ -16,7 +16,7 @@ class FileController extends Controller
                 //
                 $validated = $request->validate([
                     'name' => 'string|max:90',
-                    'image' => 'mimes:jpeg,png|max:1024',
+                    'image' => 'mimes:jpeg,png|max:20480',
                 ]);
 
                 $time = date("d-m-Y")."-".time() ;
